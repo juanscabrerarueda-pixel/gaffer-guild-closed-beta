@@ -165,8 +165,8 @@
         <span class="badge">Registro beta</span>
         <p>
           Registra tu correo para acceder a la beta cerrada. Al enviar el
-          formulario te llevaremos a la web app, donde recibiras el codigo de
-          verificacion.
+          formulario recibiras un codigo de verificacion para confirmar tu
+          acceso.
         </p>
         <div class="field">
           <label for="email">Email</label>
@@ -194,6 +194,16 @@
           </select>
         </div>
         <button class="button" id="submit">Solicitar acceso</button>
+        <div id="otp-block" style="display:none;">
+          <div class="field">
+            <label for="otp">Codigo de verificacion</label>
+            <input id="otp" type="text" placeholder="123456" />
+          </div>
+          <div class="cta-row">
+            <button class="button" id="verify">Confirmar codigo</button>
+            <button class="button secondary" id="resend">Reenviar codigo</button>
+          </div>
+        </div>
         <div id="status" class="status"></div>
         <p class="footer">
           Usaremos tu email solo para contactarte sobre la beta. No spam.
@@ -210,6 +220,9 @@
       const storageKey = "gg_beta_access";
       const statusEl = document.getElementById("status");
       const submitBtn = document.getElementById("submit");
+      const otpBlock = document.getElementById("otp-block");
+      const verifyBtn = document.getElementById("verify");
+      const resendBtn = document.getElementById("resend");
       const landingToApp = () => {
         window.localStorage.setItem(storageKey, "1");
         window.location.href = "./app/";
@@ -230,8 +243,7 @@
           return;
         }
         if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL.includes("SUPABASE")) {
-          setStatus("Registro enviado. Abriendo app...", false);
-          landingToApp();
+          setStatus("Registro enviado. Revisa tu correo para el codigo.", false);
           return;
         }
         submitBtn.disabled = true;
@@ -263,19 +275,120 @@
             throw new Error("request_failed");
           }
           if (response.status === 409) {
-            setStatus("Ya estabas registrado. Abriendo app...", false);
+            setStatus("Ya estabas registrado. Enviando codigo...", false);
           } else {
-            setStatus("Registro completo. Abriendo app...", false);
+            setStatus("Registro completo. Enviando codigo...", false);
           }
           try {
             window.localStorage.setItem("gg_beta_email", email);
           } catch {}
-          openAppBtn.style.display = "inline-flex";
-          landingToApp();
+          const otpResp = await fetch(`${SUPABASE_URL}/auth/v1/otp`, {
+            method: "POST",
+            headers: {
+              apikey: SUPABASE_ANON_KEY,
+              Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email,
+              options: { shouldCreateUser: true },
+            }),
+          });
+          if (!otpResp.ok) {
+            setStatus("No se pudo enviar el codigo. Intenta de nuevo.", true);
+            return;
+          }
+          otpBlock.style.display = "block";
+          setStatus("Codigo enviado. Revísalo en tu correo.", false);
         } catch (err) {
           setStatus("No se pudo registrar. Intenta de nuevo.", true);
         } finally {
           submitBtn.disabled = false;
+        }
+      });
+
+      verifyBtn.addEventListener("click", async (event) => {
+        event.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        const code = document.getElementById("otp").value.trim();
+        if (!email || !code) {
+          setStatus("Ingresa email y codigo.", true);
+          return;
+        }
+        verifyBtn.disabled = true;
+        setStatus("Verificando...", false);
+        try {
+          const resp = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
+            method: "POST",
+            headers: {
+              apikey: SUPABASE_ANON_KEY,
+              Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, token: code, type: "email" }),
+          });
+          if (!resp.ok) {
+            setStatus("Codigo invalido. Intenta de nuevo.", true);
+            return;
+          }
+          const payload = await resp.json().catch(() => null);
+          const accessToken = payload && payload.access_token;
+          if (accessToken) {
+            const check = await fetch(
+              `${SUPABASE_URL}/rest/v1/beta_signups?email=eq.${encodeURIComponent(email)}&select=id&limit=1`,
+              {
+                method: "GET",
+                headers: {
+                  apikey: SUPABASE_ANON_KEY,
+                  Authorization: `Bearer ${accessToken}`,
+                  Accept: "application/json",
+                },
+              },
+            );
+            const data = await check.json().catch(() => []);
+            if (!Array.isArray(data) || data.length === 0) {
+              setStatus("Tu correo no esta aprobado para la beta.", true);
+              return;
+            }
+          }
+          openAppBtn.style.display = "inline-flex";
+          landingToApp();
+        } catch (err) {
+          setStatus("No se pudo verificar. Intenta de nuevo.", true);
+        } finally {
+          verifyBtn.disabled = false;
+        }
+      });
+
+      resendBtn.addEventListener("click", async (event) => {
+        event.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        if (!email) {
+          setStatus("Ingresa un email valido.", true);
+          return;
+        }
+        resendBtn.disabled = true;
+        setStatus("Reenviando codigo...", false);
+        try {
+          const otpResp = await fetch(`${SUPABASE_URL}/auth/v1/otp`, {
+            method: "POST",
+            headers: {
+              apikey: SUPABASE_ANON_KEY,
+              Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email,
+              options: { shouldCreateUser: true },
+            }),
+          });
+          if (!otpResp.ok) {
+            setStatus("No se pudo reenviar. Intenta de nuevo.", true);
+            return;
+          }
+          setStatus("Codigo reenviado. Revisa tu correo.", false);
+        } finally {
+          resendBtn.disabled = false;
         }
       });
     </script>
