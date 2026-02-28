@@ -225,6 +225,7 @@
       const verifyBtn = document.getElementById("verify");
       const resendBtn = document.getElementById("resend");
       const emailInput = document.getElementById("email");
+      let otpCooldownUntil = 0;
       const landingToApp = () => {
         window.localStorage.setItem(storageKey, "1");
         window.location.href = "./app/";
@@ -232,6 +233,21 @@
       const setStatus = (text, isError) => {
         statusEl.textContent = text || "";
         statusEl.className = isError ? "status error" : "status";
+      };
+      const setCooldown = (seconds) => {
+        otpCooldownUntil = Date.now() + seconds * 1000;
+        resendBtn.disabled = true;
+        const tick = () => {
+          const remaining = Math.max(0, Math.ceil((otpCooldownUntil - Date.now()) / 1000));
+          if (remaining <= 0) {
+            resendBtn.disabled = false;
+            resendBtn.textContent = "Reenviar codigo";
+            return;
+          }
+          resendBtn.textContent = `Reenviar en ${remaining}s`;
+          setTimeout(tick, 1000);
+        };
+        tick();
       };
       const hasAccess = () => {
         try {
@@ -313,12 +329,18 @@
               options: { shouldCreateUser: true },
             }),
           });
+          if (otpResp.status === 429) {
+            setStatus("Limite de envios alcanzado. Espera un minuto y reintenta.", true);
+            setCooldown(60);
+            return;
+          }
           if (!otpResp.ok) {
             setStatus("No se pudo enviar el codigo. Intenta de nuevo.", true);
             return;
           }
           otpBlock.style.display = "block";
           setStatus("Codigo enviado. Revísalo en tu correo.", false);
+          setCooldown(30);
         } catch (err) {
           setStatus("No se pudo registrar. Intenta de nuevo.", true);
         } finally {
@@ -356,7 +378,7 @@
             : await verifyWithType("email");
           const finalResult = result.ok ? result : await verifyWithType("magiclink");
           if (!finalResult.ok) {
-            setStatus("Codigo invalido. Intenta de nuevo.", true);
+            setStatus("Codigo invalido o expirado. Solicita uno nuevo.", true);
             return;
           }
           const payload = finalResult.payload;
@@ -395,6 +417,9 @@
           setStatus("Ingresa un email valido.", true);
           return;
         }
+        if (Date.now() < otpCooldownUntil) {
+          return;
+        }
         resendBtn.disabled = true;
         setStatus("Reenviando codigo...", false);
         try {
@@ -410,11 +435,17 @@
               options: { shouldCreateUser: true },
             }),
           });
+          if (otpResp.status === 429) {
+            setStatus("Limite de envios alcanzado. Espera un minuto y reintenta.", true);
+            setCooldown(60);
+            return;
+          }
           if (!otpResp.ok) {
             setStatus("No se pudo reenviar. Intenta de nuevo.", true);
             return;
           }
           setStatus("Codigo reenviado. Revisa tu correo.", false);
+          setCooldown(30);
         } finally {
           resendBtn.disabled = false;
         }
