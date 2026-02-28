@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Gaffer Guild - Closed Beta</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #0b1225;
+        --panel: #0f1a36;
+        --card: #121f42;
+        --text: #f8fafc;
+        --muted: #c7d2fe;
+        --accent: #38bdf8;
+        --accent-2: #f97316;
+        --outline: rgba(148, 163, 255, 0.18);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background:
+          radial-gradient(1000px 600px at 70% -10%, #1f2b5b 0%, transparent 70%),
+          radial-gradient(800px 500px at -10% 10%, #16213f 0%, transparent 65%),
+          var(--bg);
+        color: var(--text);
+      }
+      main {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 72px 24px 96px;
+        display: grid;
+        gap: 36px;
+      }
+      .hero {
+        display: grid;
+        gap: 24px;
+        background: linear-gradient(145deg, rgba(18, 31, 66, 0.95), rgba(10, 16, 35, 0.95));
+        border-radius: 28px;
+        padding: 32px;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+      }
+      .hero-grid {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        align-items: center;
+      }
+      .badge {
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(56, 189, 248, 0.15);
+        color: #bae6fd;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: clamp(28px, 3.6vw, 44px);
+        letter-spacing: 0.4px;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: clamp(22px, 3vw, 32px);
+      }
+      h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+      }
+      p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+      }
+      .cta-row {
+        margin-top: 20px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+      .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 20px;
+        border-radius: 999px;
+        text-decoration: none;
+        font-weight: 700;
+        background: var(--accent-2);
+        color: #0b0f1f;
+        border: none;
+        cursor: pointer;
+      }
+      .button.secondary {
+        background: transparent;
+        color: var(--accent);
+        border: 1px solid rgba(148, 163, 255, 0.4);
+      }
+      .hero-image {
+        border-radius: 18px;
+        border: 1px solid var(--outline);
+        overflow: hidden;
+        background: #0a1026;
+      }
+      .hero-image img {
+        width: 100%;
+        display: block;
+      }
+      .logo {
+        max-width: 260px;
+      }
+      .grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+      .card {
+        background: rgba(15, 23, 42, 0.75);
+        border-radius: 18px;
+        padding: 18px;
+        border: 1px solid var(--outline);
+      }
+      .section {
+        display: grid;
+        gap: 18px;
+      }
+      .showcase {
+        display: grid;
+        gap: 18px;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
+      .shot {
+        background: rgba(12, 18, 37, 0.9);
+        border-radius: 18px;
+        border: 1px solid var(--outline);
+        overflow: hidden;
+        display: grid;
+        gap: 10px;
+        padding: 14px;
+      }
+      .shot img {
+        width: 100%;
+        border-radius: 12px;
+        display: block;
+      }
+      .shot p {
+        font-size: 13px;
+        color: #b7c3f7;
+      }
+      .footer {
+        color: #94a3b8;
+        font-size: 12px;
+      }
+      .form {
+        display: grid;
+        gap: 12px;
+        background: rgba(15, 23, 42, 0.75);
+        border-radius: 18px;
+        padding: 18px;
+        border: 1px solid var(--outline);
+      }
+      .field {
+        display: grid;
+        gap: 6px;
+      }
+      label {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      input,
+      select,
+      textarea {
+        background: #0f172a;
+        color: var(--text);
+        border: 1px solid rgba(148, 163, 255, 0.2);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 14px;
+      }
+      .status {
+        font-size: 13px;
+        color: #a5b4fc;
+      }
+      .status.error {
+        color: #fca5a5;
+      }
+      @media (max-width: 720px) {
+        main {
+          padding: 48px 18px 72px;
+        }
+        .hero {
+          padding: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <section class="hero">
+        <span class="badge">Closed Beta</span>
+        <div class="hero-grid">
+          <div>
+            <img class="logo" src="assets/branding/gg-logo-cold.png" alt="Gaffer Guild" />
+            <h1>Tu kit de rodaje, en el bolsillo.</h1>
+            <p>
+              Beta cerrada para equipos reales. Mide, planifica y exporta en
+              minutos. Acceso solo para testers verificados.
+            </p>
+            <div class="cta-row">
+              <a class="button secondary" href="#signup">Pedir acceso</a>
+              <a class="button" id="open-app" href="./app/" style="display:none;">Abrir web app</a>
+            </div>
+          </div>
+          <div class="hero-image">
+            <img src="assets/screens/roles-dashboard.png" alt="Dashboard por roles" />
+          </div>
+        </div>
+      </section>
+
+      <section class="grid">
+        <div class="card">
+          <h3>Mediciones reales</h3>
+          <p>Lux, T-stop, continuidad y reportes listos para exportar.</p>
+        </div>
+        <div class="card">
+          <h3>Roles claros</h3>
+          <p>Dashboards pensados para Produccion, AC y Gaffer.</p>
+        </div>
+        <div class="card">
+          <h3>Offline first</h3>
+          <p>Trabaja sin conexion y exporta apenas vuelvas a linea.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Lo que puedes hacer en set</h2>
+        <div class="showcase">
+          <div class="shot">
+            <img src="assets/screens/fov-specs.png" alt="Campo de vision con specs" />
+            <p>Campo de vision verificado con specs y trazabilidad.</p>
+          </div>
+          <div class="shot">
+            <img src="assets/screens/contrast-lux.png" alt="Relacion de contraste" />
+            <p>Relacion de contraste con lux, T-stop y delta en un vistazo.</p>
+          </div>
+          <div class="shot">
+            <img src="assets/screens/false-color.png" alt="False color" />
+            <p>False color por preset de camara, listo para decisiones rapidas.</p>
+          </div>
+          <div class="shot">
+            <img src="assets/screens/budget.png" alt="Budget" />
+            <p>Presupuesto por dia con export CSV y PDF.</p>
+          </div>
+          <div class="shot">
+            <img src="assets/screens/call-sheet.png" alt="Call sheet" />
+            <p>Call sheet para equipo, notas de seguridad y export PDF.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="signup" class="form">
+        <span class="badge">Registro beta</span>
+        <p>
+          Registra tu correo para acceder a la beta cerrada. Al enviar el
+          formulario recibiras un codigo de verificacion para confirmar tu
+          acceso.
+        </p>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="correo@dominio.com" required />
+        </div>
+        <div class="field">
+          <label for="role">Rol</label>
+          <select id="role">
+            <option value="gaffer">Gaffer</option>
+            <option value="ac">AC</option>
+            <option value="production">Produccion</option>
+            <option value="other">Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="country">Pais</label>
+          <input id="country" type="text" placeholder="Colombia" />
+        </div>
+        <div class="field">
+          <label for="platform">Plataforma</label>
+          <select id="platform">
+            <option value="web">Web</option>
+            <option value="ios">iOS</option>
+            <option value="android">Android</option>
+          </select>
+        </div>
+        <button class="button" id="submit">Solicitar acceso</button>
+        <div id="otp-block" style="display:none;">
+          <div class="field">
+            <label for="otp">Codigo de verificacion</label>
+            <input id="otp" type="text" placeholder="123456" />
+          </div>
+          <div class="cta-row">
+            <button class="button" id="verify">Confirmar codigo</button>
+            <button class="button secondary" id="resend">Reenviar codigo</button>
+          </div>
+        </div>
+        <div id="status" class="status"></div>
+        <p class="footer">
+          Usaremos tu email solo para contactarte sobre la beta. No spam.
+        </p>
+      </section>
+
+      <section class="footer">
+        Beta cerrada. Algunas funciones pueden cambiar durante pruebas.
+      </section>
+    </main>
+    <script>
+      const SUPABASE_URL = "__SUPABASE_URL__";
+      const SUPABASE_ANON_KEY = "__SUPABASE_ANON_KEY__";
+      const storageKey = "gg_beta_access";
+      const statusEl = document.getElementById("status");
+      const openAppBtn = document.getElementById("open-app");
+      const submitBtn = document.getElementById("submit");
+      const otpBlock = document.getElementById("otp-block");
+      const verifyBtn = document.getElementById("verify");
+      const resendBtn = document.getElementById("resend");
+      const emailInput = document.getElementById("email");
+      let otpCooldownUntil = 0;
+      const landingToApp = () => {
+        window.localStorage.setItem(storageKey, "1");
+        window.location.href = "./app/";
+      };
+      const setStatus = (text, isError) => {
+        statusEl.textContent = text || "";
+        statusEl.className = isError ? "status error" : "status";
+      };
+      const setCooldown = (seconds) => {
+        otpCooldownUntil = Date.now() + seconds * 1000;
+        resendBtn.disabled = true;
+        const tick = () => {
+          const remaining = Math.max(0, Math.ceil((otpCooldownUntil - Date.now()) / 1000));
+          if (remaining <= 0) {
+            resendBtn.disabled = false;
+            resendBtn.textContent = "Reenviar codigo";
+            return;
+          }
+          resendBtn.textContent = `Reenviar en ${remaining}s`;
+          setTimeout(tick, 1000);
+        };
+        tick();
+      };
+      const hasAccess = () => {
+        try {
+          return window.localStorage.getItem(storageKey) === "1";
+        } catch {
+          return false;
+        }
+      };
+      if (hasAccess()) {
+        openAppBtn.style.display = "inline-flex";
+      }
+      try {
+        const cachedEmail = window.localStorage.getItem("gg_beta_email");
+        if (cachedEmail && !emailInput.value) {
+          emailInput.value = cachedEmail;
+          otpBlock.style.display = "block";
+        }
+      } catch {}
+
+      submitBtn.addEventListener("click", async (event) => {
+        event.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        const role = document.getElementById("role").value;
+        const country = document.getElementById("country").value.trim();
+        const platform = document.getElementById("platform").value;
+        if (!email) {
+          setStatus("Ingresa un email valido.", true);
+          return;
+        }
+        if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL.includes("SUPABASE")) {
+          setStatus("Registro enviado. Revisa tu correo para el codigo.", false);
+          return;
+        }
+        submitBtn.disabled = true;
+        setStatus("Enviando...", false);
+        try {
+          const response = await fetch(`${SUPABASE_URL}/rest/v1/beta_signups`, {
+            method: "POST",
+            headers: {
+              apikey: SUPABASE_ANON_KEY,
+              Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+              "Content-Type": "application/json",
+              Prefer: "return=minimal",
+            },
+            body: JSON.stringify({
+              email,
+              role,
+              country,
+              platform,
+              created_at: new Date().toISOString(),
+            }),
+          });
+          if (response.status === 401 || response.status === 403) {
+            setStatus("Error de permisos en el registro. Contacta soporte.", true);
+            return;
+          }
+          if (!response.ok && response.status !== 409) {
+            const text = await response.text().catch(() => "");
+            console.warn("beta signup failed", response.status, text);
+            throw new Error("request_failed");
+          }
+          if (response.status === 409) {
+            setStatus("Ya estabas registrado. Enviando codigo...", false);
+          } else {
+            setStatus("Registro completo. Enviando codigo...", false);
+          }
+          try {
+            window.localStorage.setItem("gg_beta_email", email);
+          } catch {}
+          const otpResp = await fetch(`${SUPABASE_URL}/auth/v1/otp`, {
+            method: "POST",
+            headers: {
+              apikey: SUPABASE_ANON_KEY,
+              Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email,
+              options: { shouldCreateUser: true },
+            }),
+          });
+          if (otpResp.status === 429) {
+            setStatus("Limite de envios alcanzado. Espera un minuto y reintenta.", true);
+            setCooldown(60);
+            return;
+          }
+          if (!otpResp.ok) {
+            setStatus("No se pudo enviar el codigo. Intenta de nuevo.", true);
+            return;
+          }
+          otpBlock.style.display = "block";
+          setStatus("Codigo enviado. Revisalo en tu correo.", false);
+          setCooldown(30);
+        } catch (err) {
+          setStatus("No se pudo registrar. Intenta de nuevo.", true);
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+
+      verifyBtn.addEventListener("click", async (event) => {
+        event.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        const code = document.getElementById("otp").value.trim();
+        if (!email || !code) {
+          setStatus("Ingresa email y codigo.", true);
+          return;
+        }
+        verifyBtn.disabled = true;
+        setStatus("Verificando...", false);
+        try {
+          const verifyWithType = async (type) => {
+            const resp = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
+              method: "POST",
+              headers: {
+                apikey: SUPABASE_ANON_KEY,
+                Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email, token: code, type }),
+            });
+            const payload = await resp.json().catch(() => null);
+            return { ok: resp.ok, status: resp.status, payload };
+          };
+          const attempt = await verifyWithType("signup");
+          const result = attempt.ok ? attempt : await verifyWithType("email");
+          const finalResult = result.ok ? result : await verifyWithType("magiclink");
+          if (!finalResult.ok) {
+            const errorCode =
+              (finalResult.payload &&
+                (finalResult.payload.error_code || finalResult.payload.code || finalResult.payload.error)) ||
+              "";
+            if (finalResult.status === 429) {
+              setStatus("Demasiados intentos. Espera un minuto y reintenta.", true);
+            } else if (/expired|otp_expired/i.test(String(errorCode))) {
+              setStatus("Codigo expirado. Solicita uno nuevo.", true);
+            } else if (/invalid|not_found|token/i.test(String(errorCode))) {
+              setStatus("Codigo invalido. Revisa e intenta de nuevo.", true);
+            } else {
+              setStatus("No se pudo verificar. Solicita un nuevo codigo.", true);
+            }
+            return;
+          }
+          const payload = finalResult.payload;
+          const accessToken = payload && payload.access_token;
+          if (accessToken) {
+            const check = await fetch(
+              `${SUPABASE_URL}/rest/v1/beta_signups?email=eq.${encodeURIComponent(email)}&select=id&limit=1`,
+              {
+                method: "GET",
+                headers: {
+                  apikey: SUPABASE_ANON_KEY,
+                  Authorization: `Bearer ${accessToken}`,
+                  Accept: "application/json",
+                },
+              },
+            );
+            const data = await check.json().catch(() => []);
+            if (!Array.isArray(data) || data.length === 0) {
+              setStatus("Tu correo no esta aprobado para la beta.", true);
+              return;
+            }
+          }
+          openAppBtn.style.display = "inline-flex";
+          landingToApp();
+        } catch (err) {
+          setStatus("No se pudo verificar. Intenta de nuevo.", true);
+        } finally {
+          verifyBtn.disabled = false;
+        }
+      });
+
+      resendBtn.addEventListener("click", async (event) => {
+        event.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        if (!email) {
+          setStatus("Ingresa un email valido.", true);
+          return;
+        }
+        if (Date.now() < otpCooldownUntil) {
+          return;
+        }
+        resendBtn.disabled = true;
+        setStatus("Reenviando codigo...", false);
+        try {
+          const otpResp = await fetch(`${SUPABASE_URL}/auth/v1/otp`, {
+            method: "POST",
+            headers: {
+              apikey: SUPABASE_ANON_KEY,
+              Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email,
+              options: { shouldCreateUser: true },
+            }),
+          });
+          if (otpResp.status === 429) {
+            setStatus("Limite de envios alcanzado. Espera un minuto y reintenta.", true);
+            setCooldown(60);
+            return;
+          }
+          if (!otpResp.ok) {
+            setStatus("No se pudo reenviar. Intenta de nuevo.", true);
+            return;
+          }
+          setStatus("Codigo reenviado. Revisa tu correo.", false);
+          setCooldown(30);
+        } finally {
+          resendBtn.disabled = false;
+        }
+      });
+    </script>
+  </body>
+</html>
