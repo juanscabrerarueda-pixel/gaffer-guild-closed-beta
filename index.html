@@ -370,7 +370,7 @@
               body: JSON.stringify({ email, token: code, type }),
             });
             const payload = await resp.json().catch(() => null);
-            return { ok: resp.ok, payload };
+            return { ok: resp.ok, status: resp.status, payload };
           };
           const attempt = await verifyWithType("signup");
           const result = attempt.ok
@@ -378,7 +378,18 @@
             : await verifyWithType("email");
           const finalResult = result.ok ? result : await verifyWithType("magiclink");
           if (!finalResult.ok) {
-            setStatus("Codigo invalido o expirado. Solicita uno nuevo.", true);
+            const errorCode =
+              (finalResult.payload && (finalResult.payload.error_code || finalResult.payload.code || finalResult.payload.error)) ||
+              "";
+            if (finalResult.status === 429) {
+              setStatus("Demasiados intentos. Espera un minuto y reintenta.", true);
+            } else if (/expired|otp_expired/i.test(String(errorCode))) {
+              setStatus("Codigo expirado. Solicita uno nuevo.", true);
+            } else if (/invalid|not_found|token/i.test(String(errorCode))) {
+              setStatus("Codigo invalido. Revisa e intenta de nuevo.", true);
+            } else {
+              setStatus("No se pudo verificar. Solicita un nuevo codigo.", true);
+            }
             return;
           }
           const payload = finalResult.payload;
