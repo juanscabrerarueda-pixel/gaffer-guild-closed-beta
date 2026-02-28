@@ -22,6 +22,7 @@ Ver `LICENSING_SPEC.md`.
 - Landing con registro beta + verificacion OTP por email (Supabase).
 - SMTP custom (Gmail) configurado para evitar rate limits.
 - Acceso web con gating: testers verificados entran a `/app/`.
+- Landing narrativa azul con screenshots por modulo (hero + 5 highlights).
 - Settings primero en pantalla con selector de tema (dropdown) y idioma (ES/EN).
 - Now Bar compacto con Proyecto/Escena/Plano y estado de guardado.
 - Dashboards por rol compactos y responsivos con grid adaptable.

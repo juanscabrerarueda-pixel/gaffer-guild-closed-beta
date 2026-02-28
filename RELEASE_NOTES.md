@@ -9,6 +9,8 @@
 - Acceso web con gating: testers verificados entran a `/app/`.
 - Claqueta + Camera Report visibles solo para rol AC.
 - Dashboard compacto y responsive.
+- Landing narrativa azul con screenshots clave por modulo.
+- Dependencia `sharp-cli` fijada a `^2.1.0` a nivel proyecto.
 
 ## Closed Beta Ready - Checklist (2026-02-28)
 1. Release discipline: `npm run verify` ejecutado y log actualizado.
@@ -25,6 +27,7 @@
 ## Fixes
 - Verificacion OTP robusta (tipos signup/email/magiclink).
 - Mensajes de error claros para rate limit y OTP invalido.
+- Deploy web sin warning de `sharp-cli`.
 
 ## Advertencias conocidas
 - Warning Expo: `@react-native-community/netinfo@11.5.2` vs expected `11.1.0`.

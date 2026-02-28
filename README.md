@@ -24,6 +24,7 @@ Ver `LICENSING_SPEC.md`.
 - Landing con registro beta + verificacion OTP por email (Supabase).
 - SMTP custom configurado (Gmail) para evitar rate limits de Supabase.
 - Acceso web con gating: solo testers verificados entran a `/app/`.
+- Landing actualizada con narrativa azul y screenshots clave por modulo.
 - Claqueta (Slate) y Camera Report visibles solo para rol AC.
 - Dashboards por rol compactos y responsivos con grid adaptable.
 - Scouting/Logs: lux + T-stop por locacion, selector de pasos (full/1/2/1/3).
