@@ -96,6 +96,39 @@
         color: #94a3b8;
         font-size: 12px;
       }
+      .form {
+        display: grid;
+        gap: 12px;
+        background: rgba(15, 23, 42, 0.75);
+        border-radius: 18px;
+        padding: 18px;
+        border: 1px solid rgba(148, 163, 255, 0.15);
+      }
+      .field {
+        display: grid;
+        gap: 6px;
+      }
+      label {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      input,
+      select,
+      textarea {
+        background: #0f172a;
+        color: var(--text);
+        border: 1px solid rgba(148, 163, 255, 0.2);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 14px;
+      }
+      .status {
+        font-size: 13px;
+        color: #a5b4fc;
+      }
+      .status.error {
+        color: #fca5a5;
+      }
     </style>
   </head>
   <body>
@@ -109,7 +142,7 @@
         </p>
         <div class="cta-row">
           <a class="button" href="./app/">Abrir web app</a>
-          <a class="button secondary" href="mailto:beta@gafferguild.com">Pedir acceso</a>
+          <a class="button secondary" href="#signup">Pedir acceso</a>
         </div>
       </section>
 
@@ -128,9 +161,108 @@
         </div>
       </section>
 
+      <section id="signup" class="form">
+        <span class="badge">Registro beta</span>
+        <p>
+          Registra tu correo para acceder a la beta cerrada. Al enviar el
+          formulario te llevaremos a la web app.
+        </p>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" placeholder="correo@dominio.com" required />
+        </div>
+        <div class="field">
+          <label for="role">Rol</label>
+          <select id="role">
+            <option value="gaffer">Gaffer</option>
+            <option value="ac">AC</option>
+            <option value="production">Produccion</option>
+            <option value="other">Otro</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="country">Pais</label>
+          <input id="country" type="text" placeholder="Colombia" />
+        </div>
+        <div class="field">
+          <label for="platform">Plataforma</label>
+          <select id="platform">
+            <option value="web">Web</option>
+            <option value="ios">iOS</option>
+            <option value="android">Android</option>
+          </select>
+        </div>
+        <button class="button" id="submit">Solicitar acceso</button>
+        <div id="status" class="status"></div>
+        <p class="footer">
+          Usaremos tu email solo para contactarte sobre la beta. No spam.
+        </p>
+      </section>
+
       <section class="footer">
         Beta cerrada. Algunas funciones pueden cambiar durante pruebas.
       </section>
     </main>
+    <script>
+      const SUPABASE_URL = "https://urusurtolzxowfbiulro.supabase.co";
+      const SUPABASE_ANON_KEY = "sb_publishable_MBifeEVtug26JSUY209ylg_qBgZs1IJ";
+      const storageKey = "gg_beta_access";
+      const statusEl = document.getElementById("status");
+      const submitBtn = document.getElementById("submit");
+      const landingToApp = () => {
+        window.localStorage.setItem(storageKey, "1");
+        window.location.href = "./app/";
+      };
+      const setStatus = (text, isError) => {
+        statusEl.textContent = text || "";
+        statusEl.className = isError ? "status error" : "status";
+      };
+
+      submitBtn.addEventListener("click", async (event) => {
+        event.preventDefault();
+        const email = document.getElementById("email").value.trim();
+        const role = document.getElementById("role").value;
+        const country = document.getElementById("country").value.trim();
+        const platform = document.getElementById("platform").value;
+        if (!email) {
+          setStatus("Ingresa un email valido.", true);
+          return;
+        }
+        if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL.includes("SUPABASE")) {
+          setStatus("Registro enviado. Te contactaremos pronto.", false);
+          landingToApp();
+          return;
+        }
+        submitBtn.disabled = true;
+        setStatus("Enviando...", false);
+        try {
+          const response = await fetch(`${SUPABASE_URL}/rest/v1/beta_signups`, {
+            method: "POST",
+            headers: {
+              apikey: SUPABASE_ANON_KEY,
+              Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+              "Content-Type": "application/json",
+              Prefer: "return=minimal",
+            },
+            body: JSON.stringify({
+              email,
+              role,
+              country,
+              platform,
+              created_at: new Date().toISOString(),
+            }),
+          });
+          if (!response.ok) {
+            throw new Error("request_failed");
+          }
+          setStatus("Registro completo. Abriendo app...", false);
+          landingToApp();
+        } catch (err) {
+          setStatus("No se pudo registrar. Intenta de nuevo.", true);
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+    </script>
   </body>
 </html>
