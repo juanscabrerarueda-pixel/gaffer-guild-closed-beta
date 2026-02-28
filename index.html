@@ -135,7 +135,7 @@
     <main>
       <section class="hero">
         <span class="badge">Closed Beta</span>
-        <h1>Gaffer Guild — Tu kit de rodaje, en el bolsillo.</h1>
+        <h1>Gaffer Guild - Tu kit de rodaje, en el bolsillo.</h1>
         <p>
           Esta es la beta cerrada de la app web. Puedes probar el producto real
           y enviarnos feedback. Si no tienes acceso, solicita invitacion.
@@ -219,10 +219,12 @@
       const SUPABASE_ANON_KEY = "sb_publishable_MBifeEVtug26JSUY209ylg_qBgZs1IJ";
       const storageKey = "gg_beta_access";
       const statusEl = document.getElementById("status");
+      const openAppBtn = document.getElementById("open-app");
       const submitBtn = document.getElementById("submit");
       const otpBlock = document.getElementById("otp-block");
       const verifyBtn = document.getElementById("verify");
       const resendBtn = document.getElementById("resend");
+      const emailInput = document.getElementById("email");
       const landingToApp = () => {
         window.localStorage.setItem(storageKey, "1");
         window.location.href = "./app/";
@@ -231,6 +233,23 @@
         statusEl.textContent = text || "";
         statusEl.className = isError ? "status error" : "status";
       };
+      const hasAccess = () => {
+        try {
+          return window.localStorage.getItem(storageKey) === "1";
+        } catch {
+          return false;
+        }
+      };
+      if (hasAccess()) {
+        openAppBtn.style.display = "inline-flex";
+      }
+      try {
+        const cachedEmail = window.localStorage.getItem("gg_beta_email");
+        if (cachedEmail && !emailInput.value) {
+          emailInput.value = cachedEmail;
+          otpBlock.style.display = "block";
+        }
+      } catch {}
 
       submitBtn.addEventListener("click", async (event) => {
         event.preventDefault();
@@ -318,20 +337,29 @@
         verifyBtn.disabled = true;
         setStatus("Verificando...", false);
         try {
-          const resp = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
-            method: "POST",
-            headers: {
-              apikey: SUPABASE_ANON_KEY,
-              Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, token: code, type: "email" }),
-          });
-          if (!resp.ok) {
+          const verifyWithType = async (type) => {
+            const resp = await fetch(`${SUPABASE_URL}/auth/v1/verify`, {
+              method: "POST",
+              headers: {
+                apikey: SUPABASE_ANON_KEY,
+                Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email, token: code, type }),
+            });
+            const payload = await resp.json().catch(() => null);
+            return { ok: resp.ok, payload };
+          };
+          const attempt = await verifyWithType("signup");
+          const result = attempt.ok
+            ? attempt
+            : await verifyWithType("email");
+          const finalResult = result.ok ? result : await verifyWithType("magiclink");
+          if (!finalResult.ok) {
             setStatus("Codigo invalido. Intenta de nuevo.", true);
             return;
           }
-          const payload = await resp.json().catch(() => null);
+          const payload = finalResult.payload;
           const accessToken = payload && payload.access_token;
           if (accessToken) {
             const check = await fetch(
@@ -394,14 +422,3 @@
     </script>
   </body>
 </html>
-      const openAppBtn = document.getElementById("open-app");
-      const hasAccess = () => {
-        try {
-          return window.localStorage.getItem(storageKey) === "1";
-        } catch {
-          return false;
-        }
-      };
-      if (hasAccess()) {
-        openAppBtn.style.display = "inline-flex";
-      }
