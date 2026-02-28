@@ -167,6 +167,38 @@
         font-size: 13px;
         color: #b7c3f7;
       }
+      .role-grid {
+        display: grid;
+        gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+      .role-card {
+        background: rgba(12, 18, 37, 0.92);
+        border-radius: 18px;
+        border: 1px solid var(--outline);
+        padding: 16px;
+        display: grid;
+        gap: 12px;
+        justify-items: center;
+        text-align: center;
+      }
+      .role-card img {
+        width: 140px;
+        height: 140px;
+        object-fit: contain;
+        border-radius: 18px;
+        background: #0a1026;
+        border: 1px solid rgba(148, 163, 255, 0.12);
+      }
+      .role-card h3 {
+        margin: 0;
+        font-size: 16px;
+      }
+      .role-card p {
+        margin: 0;
+        font-size: 13px;
+        color: #b7c3f7;
+      }
       .footer {
         color: #94a3b8;
         font-size: 12px;
@@ -249,6 +281,28 @@
         <div class="card">
           <h3>Offline first</h3>
           <p>Trabaja sin conexion y exporta apenas vuelvas a linea.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Roles diseñados para rodaje</h2>
+        <p>Cada perfil recibe paneles y flujos alineados con su trabajo diario.</p>
+        <div class="role-grid">
+          <div class="role-card">
+            <img src="assets/roles/producer.png" alt="Produccion" />
+            <h3>Produccion</h3>
+            <p>Control total de reportes, presupuesto y entregables.</p>
+          </div>
+          <div class="role-card">
+            <img src="assets/roles/ac.png" alt="Asistente de camara" />
+            <h3>AC / Asistente de camara</h3>
+            <p>Claqueta, camera report y datos precisos de toma.</p>
+          </div>
+          <div class="role-card">
+            <img src="assets/roles/gaffer.png" alt="Gaffer" />
+            <h3>Gaffer</h3>
+            <p>Fotometria, contraste y control de exposicion en set.</p>
+          </div>
         </div>
       </section>
 
