@@ -165,7 +165,8 @@
         <span class="badge">Registro beta</span>
         <p>
           Registra tu correo para acceder a la beta cerrada. Al enviar el
-          formulario te llevaremos a la web app.
+          formulario te llevaremos a la web app, donde recibiras el codigo de
+          verificacion.
         </p>
         <div class="field">
           <label for="email">Email</label>
@@ -229,7 +230,7 @@
           return;
         }
         if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL.includes("SUPABASE")) {
-          setStatus("Registro enviado. Te contactaremos pronto.", false);
+          setStatus("Registro enviado. Abriendo app...", false);
           landingToApp();
           return;
         }
@@ -252,10 +253,23 @@
               created_at: new Date().toISOString(),
             }),
           });
-          if (!response.ok) {
+          if (response.status === 401 || response.status === 403) {
+            setStatus("Error de permisos en el registro. Contacta soporte.", true);
+            return;
+          }
+          if (!response.ok && response.status !== 409) {
+            const text = await response.text().catch(() => "");
+            console.warn("beta signup failed", response.status, text);
             throw new Error("request_failed");
           }
-          setStatus("Registro completo. Abriendo app...", false);
+          if (response.status === 409) {
+            setStatus("Ya estabas registrado. Abriendo app...", false);
+          } else {
+            setStatus("Registro completo. Abriendo app...", false);
+          }
+          try {
+            window.localStorage.setItem("gg_beta_email", email);
+          } catch {}
           openAppBtn.style.display = "inline-flex";
           landingToApp();
         } catch (err) {
