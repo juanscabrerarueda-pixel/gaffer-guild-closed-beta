@@ -35,6 +35,7 @@ Ver `LICENSING_SPEC.md`.
 - Ventana de luz: tz-lookup + badge "Aproximado" si falta `timeZone`, export PDF con fila "Approximate time".
 - Long-press en controles de tiempo (15 min) y numericos.
 - Slate + Camera Report visibles solo para rol AC.
+- Modales responsive en mobile (creacion/rename/delete, Call Sheet, Sun Seeker, Claqueta, Budget).
 
 ## Advertencias conocidas (2026-02-28)
 - Warning Expo: `@react-native-community/netinfo@11.5.2` vs expected `11.1.0`.

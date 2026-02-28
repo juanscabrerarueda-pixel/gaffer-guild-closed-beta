@@ -11,6 +11,7 @@
 - Dashboard compacto y responsive.
 - Landing narrativa azul con screenshots clave por modulo.
 - Dependencia `sharp-cli` fijada a `^2.1.0` a nivel proyecto.
+- Modales responsive en mobile (creacion/rename/delete, Call Sheet, Sun Seeker, Claqueta y Budget).
 
 ## Closed Beta Ready - Checklist (2026-02-28)
 1. Release discipline: `npm run verify` ejecutado y log actualizado.
@@ -28,6 +29,7 @@
 - Verificacion OTP robusta (tipos signup/email/magiclink).
 - Mensajes de error claros para rate limit y OTP invalido.
 - Deploy web sin warning de `sharp-cli`.
+- Boton de cancelar y acciones de modal ajustados para no desbordar en pantallas pequenas.
 
 ## Advertencias conocidas
 - Warning Expo: `@react-native-community/netinfo@11.5.2` vs expected `11.1.0`.

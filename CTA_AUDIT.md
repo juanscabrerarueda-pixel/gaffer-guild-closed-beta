@@ -28,6 +28,10 @@ Fecha: 2026-02-28
 - Campo de visi?n (card): **Funcional** (focus a m?dulo `fov`).
 - Ventana de luz (card): **Funcional** (focus a m?dulo `sunSeeker`).
 
+## Modales responsive (2026-02-28)
+- Creacion/Rename/Delete: botones no desbordan en mobile.
+- Date pickers (Call Sheet, Sun Seeker, Claqueta, Budget): width 100% + maxWidth.
+
 ## CTAs de export por m?dulo
 - Call Sheet: **Export PDF funcional**.
 - Campo de visi?n: **Export PNG funcional** (web).

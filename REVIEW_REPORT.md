@@ -25,6 +25,7 @@ Versi?n reviewable por un dev profesional. 8/10 defendible: arquitectura clara, 
 - Se ajust? dashboard para evitar overflow de tarjetas (tipograf?as y wrapping).
 - Landing renovada (narrativa azul) con screenshots clave por modulo.
 - `sharp-cli` fijado a `^2.1.0` para evitar warning en deploy.
+- Modales de creacion/rename/delete y date pickers ajustados para mobile (no desbordan).
 
 ## Advertencias actuales
 - Warning Expo: `@react-native-community/netinfo@11.5.2` vs expected `11.1.0`.

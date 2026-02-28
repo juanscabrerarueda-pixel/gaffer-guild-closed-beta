@@ -1,6 +1,6 @@
 # Cierre de Release (2026-02-10)
 
-> Addendum 2026-02-28: Este documento es hist?rico. Hubo cambios posteriores (OTP beta + gating web, landing narrativa azul con screenshots, ajustes de dashboard, gating de Slate/Camera Report y fix de `sharp-cli`). Ver `RELEASE_NOTES.md` y `APP_OVERVIEW.md` para el estado actual.
+> Addendum 2026-02-28: Este documento es hist?rico. Hubo cambios posteriores (OTP beta + gating web, landing narrativa azul con screenshots, ajustes de dashboard, gating de Slate/Camera Report, fix de `sharp-cli` y modales responsive en mobile). Ver `RELEASE_NOTES.md` y `APP_OVERVIEW.md` para el estado actual.
 
 
 ## Resumen Ejecutivo de Cambios (Pack de Release)

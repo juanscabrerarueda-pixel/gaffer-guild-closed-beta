@@ -30,6 +30,7 @@ Ver `LICENSING_SPEC.md`.
 - Scouting/Logs: lux + T-stop por locacion, selector de pasos (full/1/2/1/3).
 - Camera Setup: ISO y T-stop con medios/tercios; long-press en controles.
 - Ventana de luz: tz-lookup + badge "Aproximado" si falta zona horaria; export PDF con fila "Approximate time".
+- Modales responsive (creacion/rename/delete, Call Sheet, Sun Seeker, Claqueta, Budget) ajustados para movil.
 
 ## Advertencias conocidas (2026-02-28)
 - Warning Expo: `@react-native-community/netinfo@11.5.2` vs expected `11.1.0`.
