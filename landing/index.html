@@ -117,6 +117,13 @@
       .logo {
         max-width: 260px;
       }
+      .beta-banner {
+        width: 100%;
+        border-radius: 18px;
+        border: 1px solid var(--outline);
+        display: block;
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+      }
       .grid {
         display: grid;
         gap: 16px;
@@ -132,26 +139,31 @@
         display: grid;
         gap: 18px;
       }
-      .showcase {
+      .module-grid {
         display: grid;
-        gap: 18px;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       }
-      .shot {
-        background: rgba(12, 18, 37, 0.9);
+      .module-card {
+        background: rgba(12, 18, 37, 0.92);
         border-radius: 18px;
         border: 1px solid var(--outline);
-        overflow: hidden;
+        padding: 16px;
         display: grid;
         gap: 10px;
-        padding: 14px;
+        align-content: start;
       }
-      .shot img {
+      .module-icon {
         width: 100%;
-        border-radius: 12px;
+        border-radius: 14px;
+        border: 1px solid rgba(148, 163, 255, 0.12);
         display: block;
       }
-      .shot p {
+      .module-card h3 {
+        margin: 0;
+        font-size: 16px;
+      }
+      .module-card p {
         font-size: 13px;
         color: #b7c3f7;
       }
@@ -192,7 +204,7 @@
       .status.error {
         color: #fca5a5;
       }
-      @media (max-width: 720px) {
+      @media (max-width: 820px) {
         main {
           padding: 48px 18px 72px;
         }
@@ -220,7 +232,7 @@
             </div>
           </div>
           <div class="hero-image">
-            <img src="assets/screens/roles-dashboard.png" alt="Dashboard por roles" />
+            <img class="beta-banner" src="assets/branding/banner-beta.png" alt="Banner beta Gaffer Guild" />
           </div>
         </div>
       </section>
@@ -241,27 +253,68 @@
       </section>
 
       <section class="section">
-        <h2>Lo que puedes hacer en set</h2>
-        <div class="showcase">
-          <div class="shot">
-            <img src="assets/screens/fov-specs.png" alt="Campo de vision con specs" />
-            <p>Campo de vision verificado con specs y trazabilidad.</p>
+        <h2>Modulos clave en set</h2>
+        <p>Todo el flujo en un solo lugar. Cada modulo resuelve una necesidad real de rodaje.</p>
+        <div class="module-grid">
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/config-camera.png" alt="Configuracion de camara" />
+            <h3>Configuracion de camara</h3>
+            <p>ISO, T-stop, FPS y ND con coherencia tecnica.</p>
           </div>
-          <div class="shot">
-            <img src="assets/screens/contrast-lux.png" alt="Relacion de contraste" />
-            <p>Relacion de contraste con lux, T-stop y delta en un vistazo.</p>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/campo-vision.png" alt="Campo de vision" />
+            <h3>Campo de vision</h3>
+            <p>FoV confiable para decidir encuadres y lentes.</p>
           </div>
-          <div class="shot">
-            <img src="assets/screens/false-color.png" alt="False color" />
-            <p>False color por preset de camara, listo para decisiones rapidas.</p>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/relacion-contraste.png" alt="Relacion de contraste" />
+            <h3>Relacion de contraste</h3>
+            <p>Key/fill en stops para decisiones objetivas.</p>
           </div>
-          <div class="shot">
-            <img src="assets/screens/budget.png" alt="Budget" />
-            <p>Presupuesto por dia con export CSV y PDF.</p>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/aparatos-luz.png" alt="Aparatos de luz" />
+            <h3>Aparatos de luz</h3>
+            <p>Guia rapida de fixtures y caida de luz.</p>
           </div>
-          <div class="shot">
-            <img src="assets/screens/call-sheet.png" alt="Call sheet" />
-            <p>Call sheet para equipo, notas de seguridad y export PDF.</p>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/false-color.png" alt="False color" />
+            <h3>False Color</h3>
+            <p>IRE chart por preset de camara para exponer rapido.</p>
+          </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/contraste-cromatico.png" alt="Contraste cromatico" />
+            <h3>Contraste cromatico</h3>
+            <p>Balance de CCT y tinte entre key/fill.</p>
+          </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/scouting.png" alt="Scouting" />
+            <h3>Scouting</h3>
+            <p>Registros por locacion con lux y T-stop.</p>
+          </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/claqueta.png" alt="Claqueta" />
+            <h3>Claqueta</h3>
+            <p>Metadatos de toma listos para continuidad.</p>
+          </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/camera-report.png" alt="Camera report" />
+            <h3>Camera Report</h3>
+            <p>Export profesional PDF/CSV sin duplicar data.</p>
+          </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/call-sheet.png" alt="Call sheet" />
+            <h3>Call Sheet</h3>
+            <p>Plan del dia, seguridad y export PDF.</p>
+          </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/presupuesto.png" alt="Presupuesto" />
+            <h3>Presupuesto</h3>
+            <p>Costos por dia con export CSV/PDF.</p>
+          </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/reporte-proyecto.png" alt="Reporte del proyecto" />
+            <h3>Reporte del proyecto</h3>
+            <p>Resumen final con trazabilidad completa.</p>
           </div>
         </div>
       </section>
