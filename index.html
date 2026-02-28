@@ -134,26 +134,40 @@
       }
       .showcase {
         display: grid;
-        gap: 18px;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+        grid-template-columns: 1fr;
       }
       .shot {
         background: rgba(12, 18, 37, 0.9);
-        border-radius: 18px;
+        border-radius: 20px;
         border: 1px solid var(--outline);
         overflow: hidden;
         display: grid;
-        gap: 10px;
-        padding: 14px;
+        gap: 16px;
+        padding: 18px;
+      }
+      .shot.wide {
+        grid-template-columns: minmax(240px, 1fr) minmax(240px, 1fr);
+        align-items: center;
       }
       .shot img {
         width: 100%;
-        border-radius: 12px;
+        border-radius: 14px;
         display: block;
       }
       .shot p {
-        font-size: 13px;
+        font-size: 14px;
         color: #b7c3f7;
+      }
+      .shot .meta {
+        display: grid;
+        gap: 8px;
+      }
+      .shot .tag {
+        font-size: 12px;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+        color: #7dd3fc;
       }
       .footer {
         color: #94a3b8;
@@ -192,12 +206,15 @@
       .status.error {
         color: #fca5a5;
       }
-      @media (max-width: 720px) {
+      @media (max-width: 820px) {
         main {
           padding: 48px 18px 72px;
         }
         .hero {
           padding: 24px;
+        }
+        .shot.wide {
+          grid-template-columns: 1fr;
         }
       }
     </style>
@@ -243,25 +260,45 @@
       <section class="section">
         <h2>Lo que puedes hacer en set</h2>
         <div class="showcase">
-          <div class="shot">
+          <div class="shot wide">
             <img src="assets/screens/fov-specs.png" alt="Campo de vision con specs" />
-            <p>Campo de vision verificado con specs y trazabilidad.</p>
+            <div class="meta">
+              <div class="tag">Precision tecnica</div>
+              <h3>Campo de vision verificado</h3>
+              <p>FoV con specs, fabricante y trazabilidad para decisiones rapidas en set.</p>
+            </div>
           </div>
-          <div class="shot">
+          <div class="shot wide">
             <img src="assets/screens/contrast-lux.png" alt="Relacion de contraste" />
-            <p>Relacion de contraste con lux, T-stop y delta en un vistazo.</p>
+            <div class="meta">
+              <div class="tag">Control de luz</div>
+              <h3>Relacion de contraste en un vistazo</h3>
+              <p>Lux, T-stop y delta listos para alinear key/fill sin discusiones.</p>
+            </div>
           </div>
-          <div class="shot">
+          <div class="shot wide">
             <img src="assets/screens/false-color.png" alt="False color" />
-            <p>False color por preset de camara, listo para decisiones rapidas.</p>
+            <div class="meta">
+              <div class="tag">Exposicion visual</div>
+              <h3>False color por preset de camara</h3>
+              <p>IRE chart claro para exponer con confianza sin perder tiempo.</p>
+            </div>
           </div>
-          <div class="shot">
+          <div class="shot wide">
             <img src="assets/screens/budget.png" alt="Budget" />
-            <p>Presupuesto por dia con export CSV y PDF.</p>
+            <div class="meta">
+              <div class="tag">Produccion</div>
+              <h3>Presupuesto por dia</h3>
+              <p>Costos visibles y export CSV/PDF para reportar sin friccion.</p>
+            </div>
           </div>
-          <div class="shot">
+          <div class="shot wide">
             <img src="assets/screens/call-sheet.png" alt="Call sheet" />
-            <p>Call sheet para equipo, notas de seguridad y export PDF.</p>
+            <div class="meta">
+              <div class="tag">Coordinacion</div>
+              <h3>Call sheet listo para el equipo</h3>
+              <p>Plan diario, seguridad y export PDF con opt-in de datos sensibles.</p>
+            </div>
           </div>
         </div>
       </section>
