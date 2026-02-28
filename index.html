@@ -139,42 +139,33 @@
         display: grid;
         gap: 18px;
       }
-      .showcase {
-        display: grid;
-        gap: 20px;
-        grid-template-columns: 1fr;
-      }
-      .shot {
-        background: rgba(12, 18, 37, 0.9);
-        border-radius: 20px;
-        border: 1px solid var(--outline);
-        overflow: hidden;
+      .module-grid {
         display: grid;
         gap: 16px;
-        padding: 18px;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       }
-      .shot.wide {
-        grid-template-columns: minmax(240px, 1fr) minmax(240px, 1fr);
-        align-items: center;
+      .module-card {
+        background: rgba(12, 18, 37, 0.92);
+        border-radius: 18px;
+        border: 1px solid var(--outline);
+        padding: 16px;
+        display: grid;
+        gap: 10px;
+        align-content: start;
       }
-      .shot img {
+      .module-icon {
         width: 100%;
         border-radius: 14px;
+        border: 1px solid rgba(148, 163, 255, 0.12);
         display: block;
       }
-      .shot p {
-        font-size: 14px;
+      .module-card h3 {
+        margin: 0;
+        font-size: 16px;
+      }
+      .module-card p {
+        font-size: 13px;
         color: #b7c3f7;
-      }
-      .shot .meta {
-        display: grid;
-        gap: 8px;
-      }
-      .shot .tag {
-        font-size: 12px;
-        letter-spacing: 0.3px;
-        text-transform: uppercase;
-        color: #7dd3fc;
       }
       .footer {
         color: #94a3b8;
@@ -220,9 +211,6 @@
         .hero {
           padding: 24px;
         }
-        .shot.wide {
-          grid-template-columns: 1fr;
-        }
       }
     </style>
   </head>
@@ -249,12 +237,6 @@
         </div>
       </section>
 
-      <section class="section">
-        <div class="hero-image">
-          <img src="assets/screens/roles-dashboard.png" alt="Dashboard por roles" />
-        </div>
-      </section>
-
       <section class="grid">
         <div class="card">
           <h3>Mediciones reales</h3>
@@ -271,47 +253,68 @@
       </section>
 
       <section class="section">
-        <h2>Lo que puedes hacer en set</h2>
-        <div class="showcase">
-          <div class="shot wide">
-            <img src="assets/screens/fov-specs.png" alt="Campo de vision con specs" />
-            <div class="meta">
-              <div class="tag">Precision tecnica</div>
-              <h3>Campo de vision verificado</h3>
-              <p>FoV con specs, fabricante y trazabilidad para decisiones rapidas en set.</p>
-            </div>
+        <h2>Modulos clave en set</h2>
+        <p>Todo el flujo en un solo lugar. Cada modulo resuelve una necesidad real de rodaje.</p>
+        <div class="module-grid">
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/config-camera.png" alt="Configuracion de camara" />
+            <h3>Configuracion de camara</h3>
+            <p>ISO, T-stop, FPS y ND con coherencia tecnica.</p>
           </div>
-          <div class="shot wide">
-            <img src="assets/screens/contrast-lux.png" alt="Relacion de contraste" />
-            <div class="meta">
-              <div class="tag">Control de luz</div>
-              <h3>Relacion de contraste en un vistazo</h3>
-              <p>Lux, T-stop y delta listos para alinear key/fill sin discusiones.</p>
-            </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/campo-vision.png" alt="Campo de vision" />
+            <h3>Campo de vision</h3>
+            <p>FoV confiable para decidir encuadres y lentes.</p>
           </div>
-          <div class="shot wide">
-            <img src="assets/screens/false-color.png" alt="False color" />
-            <div class="meta">
-              <div class="tag">Exposicion visual</div>
-              <h3>False color por preset de camara</h3>
-              <p>IRE chart claro para exponer con confianza sin perder tiempo.</p>
-            </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/relacion-contraste.png" alt="Relacion de contraste" />
+            <h3>Relacion de contraste</h3>
+            <p>Key/fill en stops para decisiones objetivas.</p>
           </div>
-          <div class="shot wide">
-            <img src="assets/screens/budget.png" alt="Budget" />
-            <div class="meta">
-              <div class="tag">Produccion</div>
-              <h3>Presupuesto por dia</h3>
-              <p>Costos visibles y export CSV/PDF para reportar sin friccion.</p>
-            </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/aparatos-luz.png" alt="Aparatos de luz" />
+            <h3>Aparatos de luz</h3>
+            <p>Guia rapida de fixtures y caida de luz.</p>
           </div>
-          <div class="shot wide">
-            <img src="assets/screens/call-sheet.png" alt="Call sheet" />
-            <div class="meta">
-              <div class="tag">Coordinacion</div>
-              <h3>Call sheet listo para el equipo</h3>
-              <p>Plan diario, seguridad y export PDF con opt-in de datos sensibles.</p>
-            </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/false-color.png" alt="False color" />
+            <h3>False Color</h3>
+            <p>IRE chart por preset de camara para exponer rapido.</p>
+          </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/contraste-cromatico.png" alt="Contraste cromatico" />
+            <h3>Contraste cromatico</h3>
+            <p>Balance de CCT y tinte entre key/fill.</p>
+          </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/scouting.png" alt="Scouting" />
+            <h3>Scouting</h3>
+            <p>Registros por locacion con lux y T-stop.</p>
+          </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/claqueta.png" alt="Claqueta" />
+            <h3>Claqueta</h3>
+            <p>Metadatos de toma listos para continuidad.</p>
+          </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/camera-report.png" alt="Camera report" />
+            <h3>Camera Report</h3>
+            <p>Export profesional PDF/CSV sin duplicar data.</p>
+          </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/call-sheet.png" alt="Call sheet" />
+            <h3>Call Sheet</h3>
+            <p>Plan del dia, seguridad y export PDF.</p>
+          </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/presupuesto.png" alt="Presupuesto" />
+            <h3>Presupuesto</h3>
+            <p>Costos por dia con export CSV/PDF.</p>
+          </div>
+          <div class="module-card">
+            <img class="module-icon" src="assets/modules/reporte-proyecto.png" alt="Reporte del proyecto" />
+            <h3>Reporte del proyecto</h3>
+            <p>Resumen final con trazabilidad completa.</p>
           </div>
         </div>
       </section>
