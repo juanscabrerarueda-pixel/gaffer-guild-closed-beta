@@ -3,16 +3,18 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Gaffer Guild — Closed Beta</title>
+    <title>Gaffer Guild - Closed Beta</title>
     <style>
       :root {
         color-scheme: light;
-        --bg: #0c1224;
-        --card: #121a32;
+        --bg: #0b1225;
+        --panel: #0f1a36;
+        --card: #121f42;
         --text: #f8fafc;
-        --muted: #cbd5f5;
-        --accent: #f97316;
-        --accent-2: #38bdf8;
+        --muted: #c7d2fe;
+        --accent: #38bdf8;
+        --accent-2: #f97316;
+        --outline: rgba(148, 163, 255, 0.18);
       }
       * {
         box-sizing: border-box;
@@ -20,26 +22,57 @@
       body {
         margin: 0;
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: radial-gradient(1000px 600px at 70% -10%, #1f2a56 0%, transparent 70%), var(--bg);
+        background:
+          radial-gradient(1000px 600px at 70% -10%, #1f2b5b 0%, transparent 70%),
+          radial-gradient(800px 500px at -10% 10%, #16213f 0%, transparent 65%),
+          var(--bg);
         color: var(--text);
       }
       main {
-        max-width: 960px;
+        max-width: 1080px;
         margin: 0 auto;
         padding: 72px 24px 96px;
         display: grid;
-        gap: 28px;
+        gap: 36px;
       }
       .hero {
-        background: var(--card);
-        border-radius: 24px;
+        display: grid;
+        gap: 24px;
+        background: linear-gradient(145deg, rgba(18, 31, 66, 0.95), rgba(10, 16, 35, 0.95));
+        border-radius: 28px;
         padding: 32px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
+      }
+      .hero-grid {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        align-items: center;
+      }
+      .badge {
+        display: inline-flex;
+        gap: 6px;
+        align-items: center;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(56, 189, 248, 0.15);
+        color: #bae6fd;
+        font-size: 12px;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
       }
       h1 {
         margin: 0 0 12px;
         font-size: clamp(28px, 3.6vw, 44px);
-        letter-spacing: 0.5px;
+        letter-spacing: 0.4px;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: clamp(22px, 3vw, 32px);
+      }
+      h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
       }
       p {
         margin: 0;
@@ -57,17 +90,32 @@
         align-items: center;
         justify-content: center;
         gap: 8px;
-        padding: 12px 18px;
+        padding: 12px 20px;
         border-radius: 999px;
         text-decoration: none;
-        font-weight: 600;
-        background: var(--accent);
+        font-weight: 700;
+        background: var(--accent-2);
         color: #0b0f1f;
+        border: none;
+        cursor: pointer;
       }
       .button.secondary {
         background: transparent;
-        color: var(--accent-2);
+        color: var(--accent);
         border: 1px solid rgba(148, 163, 255, 0.4);
+      }
+      .hero-image {
+        border-radius: 18px;
+        border: 1px solid var(--outline);
+        overflow: hidden;
+        background: #0a1026;
+      }
+      .hero-image img {
+        width: 100%;
+        display: block;
+      }
+      .logo {
+        max-width: 260px;
       }
       .grid {
         display: grid;
@@ -78,19 +126,34 @@
         background: rgba(15, 23, 42, 0.75);
         border-radius: 18px;
         padding: 18px;
-        border: 1px solid rgba(148, 163, 255, 0.15);
+        border: 1px solid var(--outline);
       }
-      .badge {
-        display: inline-flex;
-        gap: 6px;
-        align-items: center;
-        padding: 6px 12px;
-        border-radius: 999px;
-        background: rgba(56, 189, 248, 0.15);
-        color: #bae6fd;
-        font-size: 12px;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
+      .section {
+        display: grid;
+        gap: 18px;
+      }
+      .showcase {
+        display: grid;
+        gap: 18px;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
+      .shot {
+        background: rgba(12, 18, 37, 0.9);
+        border-radius: 18px;
+        border: 1px solid var(--outline);
+        overflow: hidden;
+        display: grid;
+        gap: 10px;
+        padding: 14px;
+      }
+      .shot img {
+        width: 100%;
+        border-radius: 12px;
+        display: block;
+      }
+      .shot p {
+        font-size: 13px;
+        color: #b7c3f7;
       }
       .footer {
         color: #94a3b8;
@@ -102,7 +165,7 @@
         background: rgba(15, 23, 42, 0.75);
         border-radius: 18px;
         padding: 18px;
-        border: 1px solid rgba(148, 163, 255, 0.15);
+        border: 1px solid var(--outline);
       }
       .field {
         display: grid;
@@ -129,20 +192,36 @@
       .status.error {
         color: #fca5a5;
       }
+      @media (max-width: 720px) {
+        main {
+          padding: 48px 18px 72px;
+        }
+        .hero {
+          padding: 24px;
+        }
+      }
     </style>
   </head>
   <body>
     <main>
       <section class="hero">
         <span class="badge">Closed Beta</span>
-        <h1>Gaffer Guild - Tu kit de rodaje, en el bolsillo.</h1>
-        <p>
-          Esta es la beta cerrada de la app web. Puedes probar el producto real
-          y enviarnos feedback. Si no tienes acceso, solicita invitacion.
-        </p>
-        <div class="cta-row">
-          <a class="button secondary" href="#signup">Pedir acceso</a>
-          <a class="button" id="open-app" href="./app/" style="display:none;">Abrir web app</a>
+        <div class="hero-grid">
+          <div>
+            <img class="logo" src="assets/branding/gg-logo-cold.png" alt="Gaffer Guild" />
+            <h1>Tu kit de rodaje, en el bolsillo.</h1>
+            <p>
+              Beta cerrada para equipos reales. Mide, planifica y exporta en
+              minutos. Acceso solo para testers verificados.
+            </p>
+            <div class="cta-row">
+              <a class="button secondary" href="#signup">Pedir acceso</a>
+              <a class="button" id="open-app" href="./app/" style="display:none;">Abrir web app</a>
+            </div>
+          </div>
+          <div class="hero-image">
+            <img src="assets/screens/roles-dashboard.png" alt="Dashboard por roles" />
+          </div>
         </div>
       </section>
 
@@ -158,6 +237,32 @@
         <div class="card">
           <h3>Offline first</h3>
           <p>Trabaja sin conexion y exporta apenas vuelvas a linea.</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Lo que puedes hacer en set</h2>
+        <div class="showcase">
+          <div class="shot">
+            <img src="assets/screens/fov-specs.png" alt="Campo de vision con specs" />
+            <p>Campo de vision verificado con specs y trazabilidad.</p>
+          </div>
+          <div class="shot">
+            <img src="assets/screens/contrast-lux.png" alt="Relacion de contraste" />
+            <p>Relacion de contraste con lux, T-stop y delta en un vistazo.</p>
+          </div>
+          <div class="shot">
+            <img src="assets/screens/false-color.png" alt="False color" />
+            <p>False color por preset de camara, listo para decisiones rapidas.</p>
+          </div>
+          <div class="shot">
+            <img src="assets/screens/budget.png" alt="Budget" />
+            <p>Presupuesto por dia con export CSV y PDF.</p>
+          </div>
+          <div class="shot">
+            <img src="assets/screens/call-sheet.png" alt="Call sheet" />
+            <p>Call sheet para equipo, notas de seguridad y export PDF.</p>
+          </div>
         </div>
       </section>
 
@@ -339,7 +444,7 @@
             return;
           }
           otpBlock.style.display = "block";
-          setStatus("Codigo enviado. Revísalo en tu correo.", false);
+          setStatus("Codigo enviado. Revisalo en tu correo.", false);
           setCooldown(30);
         } catch (err) {
           setStatus("No se pudo registrar. Intenta de nuevo.", true);
@@ -373,13 +478,12 @@
             return { ok: resp.ok, status: resp.status, payload };
           };
           const attempt = await verifyWithType("signup");
-          const result = attempt.ok
-            ? attempt
-            : await verifyWithType("email");
+          const result = attempt.ok ? attempt : await verifyWithType("email");
           const finalResult = result.ok ? result : await verifyWithType("magiclink");
           if (!finalResult.ok) {
             const errorCode =
-              (finalResult.payload && (finalResult.payload.error_code || finalResult.payload.code || finalResult.payload.error)) ||
+              (finalResult.payload &&
+                (finalResult.payload.error_code || finalResult.payload.code || finalResult.payload.error)) ||
               "";
             if (finalResult.status === 429) {
               setStatus("Demasiados intentos. Espera un minuto y reintenta.", true);
