@@ -141,8 +141,8 @@
           y enviarnos feedback. Si no tienes acceso, solicita invitacion.
         </p>
         <div class="cta-row">
-          <a class="button" href="./app/">Abrir web app</a>
           <a class="button secondary" href="#signup">Pedir acceso</a>
+          <a class="button" id="open-app" href="./app/" style="display:none;">Abrir web app</a>
         </div>
       </section>
 
@@ -256,6 +256,7 @@
             throw new Error("request_failed");
           }
           setStatus("Registro completo. Abriendo app...", false);
+          openAppBtn.style.display = "inline-flex";
           landingToApp();
         } catch (err) {
           setStatus("No se pudo registrar. Intenta de nuevo.", true);
@@ -266,3 +267,14 @@
     </script>
   </body>
 </html>
+      const openAppBtn = document.getElementById("open-app");
+      const hasAccess = () => {
+        try {
+          return window.localStorage.getItem(storageKey) === "1";
+        } catch {
+          return false;
+        }
+      };
+      if (hasAccess()) {
+        openAppBtn.style.display = "inline-flex";
+      }
