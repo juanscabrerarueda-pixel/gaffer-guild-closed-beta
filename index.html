@@ -256,7 +256,8 @@
             <h1>Tu kit de rodaje, en el bolsillo.</h1>
             <p>
               Beta cerrada para equipos reales. Mide, planifica y exporta en
-              minutos. Acceso solo para testers verificados.
+              minutos. Acceso solo para testers verificados (email OTP). Google
+              login pronto.
             </p>
             <div class="cta-row">
               <a class="button secondary" href="#signup">Pedir acceso</a>
@@ -373,12 +374,43 @@
         </div>
       </section>
 
+      <section class="section">
+        <h2>Planes Season Pass (All-Access)</h2>
+        <p>Todo incluido mientras la licencia este activa. Sin tiers por modulo.</p>
+        <div class="grid">
+          <div class="card">
+            <h3>Mensual</h3>
+            <p>$6 / mes</p>
+          </div>
+          <div class="card">
+            <h3>3 meses</h3>
+            <p>$17 / 3 meses</p>
+          </div>
+          <div class="card">
+            <h3>6 meses</h3>
+            <p>$33 / 6 meses</p>
+          </div>
+          <div class="card">
+            <h3>Anual</h3>
+            <p>$60 / anio</p>
+          </div>
+          <div class="card">
+            <h3>Team 5 seats</h3>
+            <p>$25 / mes</p>
+          </div>
+          <div class="card">
+            <h3>Studio 15 seats</h3>
+            <p>$60 / mes</p>
+          </div>
+        </div>
+      </section>
+
       <section id="signup" class="form">
         <span class="badge">Registro beta</span>
         <p>
           Registra tu correo para acceder a la beta cerrada. Al enviar el
           formulario recibiras un codigo de verificacion para confirmar tu
-          acceso.
+          acceso. Login por Google estara disponible pronto.
         </p>
         <div class="field">
           <label for="email">Email</label>
@@ -430,6 +462,8 @@
       const SUPABASE_URL = "https://urusurtolzxowfbiulro.supabase.co";
       const SUPABASE_ANON_KEY = "sb_publishable_MBifeEVtug26JSUY209ylg_qBgZs1IJ";
       const storageKey = "gg_beta_access";
+      const ACCESS_TTL_DAYS = 30;
+      const ACCESS_TTL_MS = ACCESS_TTL_DAYS * 24 * 60 * 60 * 1000;
       const statusEl = document.getElementById("status");
       const openAppBtn = document.getElementById("open-app");
       const submitBtn = document.getElementById("submit");
@@ -438,8 +472,12 @@
       const resendBtn = document.getElementById("resend");
       const emailInput = document.getElementById("email");
       let otpCooldownUntil = 0;
+      const grantAccess = () => {
+        const expiresAt = Date.now() + ACCESS_TTL_MS;
+        window.localStorage.setItem(storageKey, String(expiresAt));
+      };
       const landingToApp = () => {
-        window.localStorage.setItem(storageKey, "1");
+        grantAccess();
         window.location.href = "./app/";
       };
       const setStatus = (text, isError) => {
@@ -463,7 +501,16 @@
       };
       const hasAccess = () => {
         try {
-          return window.localStorage.getItem(storageKey) === "1";
+          const raw = window.localStorage.getItem(storageKey);
+          const expiresAt = raw ? Number(raw) : 0;
+          if (!expiresAt || Number.isNaN(expiresAt)) {
+            return false;
+          }
+          if (Date.now() > expiresAt) {
+            window.localStorage.removeItem(storageKey);
+            return false;
+          }
+          return true;
         } catch {
           return false;
         }
