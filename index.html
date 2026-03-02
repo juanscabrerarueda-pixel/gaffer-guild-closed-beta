@@ -344,9 +344,6 @@
               <button class="button secondary" id="hero-google" data-i18n="hero.cta.google">
                 Continuar con Google
               </button>
-              <a class="button" id="open-app" href="./app/" style="display:none;" data-i18n="hero.cta.open">
-                Abrir web app
-              </a>
             </div>
           </div>
           <div class="hero-image">
@@ -569,7 +566,6 @@
             "Beta cerrada para equipos reales. Mide, planifica y exporta en minutos. Acceso solo para testers verificados (email OTP o Google). El acceso requiere aprobación previa del correo en la beta.",
           "hero.cta.request": "Pedir acceso",
           "hero.cta.google": "Continuar con Google",
-          "hero.cta.open": "Abrir web app",
           "feature.measure.title": "Mediciones reales",
           "feature.measure.body": "Lux, T-stop, continuidad y reportes listos para exportar.",
           "feature.roles.title": "Roles claros",
@@ -683,7 +679,6 @@
             "Closed beta for real teams. Measure, plan, and export in minutes. Access only for verified testers (email OTP or Google). Access requires prior approval of your email in the beta.",
           "hero.cta.request": "Request access",
           "hero.cta.google": "Continue with Google",
-          "hero.cta.open": "Open web app",
           "feature.measure.title": "Real measurements",
           "feature.measure.body": "Lux, T-stop, continuity, and reports ready to export.",
           "feature.roles.title": "Clear roles",
@@ -827,7 +822,6 @@
         window.localStorage.setItem(storageKey, String(expiresAt));
       };
       const landingToApp = () => {
-        grantAccess();
         window.location.href = "./app/";
       };
       const setStatus = (text, isError) => {
@@ -901,7 +895,7 @@
           }
         }
       };
-      if (hasAccess()) {
+      if (openAppBtn && hasAccess()) {
         openAppBtn.style.display = "inline-flex";
       }
       renderDaysLeft();
@@ -1075,7 +1069,7 @@
               return;
             }
           }
-          openAppBtn.style.display = "inline-flex";
+          grantAccess();
           landingToApp();
         } catch (err) {
           setStatus(CURRENT_STRINGS["status.verify.fail"], true);
