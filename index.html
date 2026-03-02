@@ -249,6 +249,7 @@
   <body>
     <main>
       <section class="hero">
+        <p id="beta-remaining-hero" class="status"></p>
         <span class="badge">Closed Beta</span>
         <div class="hero-grid">
           <div>
@@ -259,7 +260,6 @@
               minutos. Acceso solo para testers verificados (email OTP o Google).
               El acceso requiere aprobación previa del correo en la beta.
             </p>
-            <p id="beta-remaining-hero" class="status" style="display:none;"></p>
             <div class="cta-row">
               <a class="button secondary" href="#signup">Pedir acceso</a>
               <button class="button secondary" id="hero-google">Continuar con Google</button>
@@ -542,15 +542,22 @@
       };
       const renderDaysLeft = () => {
         const daysLeft = getDaysLeft();
-        if (!daysLeft) return;
-        const message = `Beta activa: te quedan ${daysLeft} días.`;
-        if (betaRemainingEl) {
-          betaRemainingEl.textContent = message;
-          betaRemainingEl.style.display = "block";
-        }
         if (betaRemainingHeroEl) {
-          betaRemainingHeroEl.textContent = message;
+          if (daysLeft) {
+            betaRemainingHeroEl.textContent = `Beta activa: te quedan ${daysLeft} d?as.`;
+          } else {
+            betaRemainingHeroEl.innerHTML =
+              'Beta no activa en este navegador. <a href="#signup">Solicita acceso m?s abajo.</a>';
+          }
           betaRemainingHeroEl.style.display = "block";
+        }
+        if (betaRemainingEl) {
+          if (daysLeft) {
+            betaRemainingEl.textContent = `Beta activa: te quedan ${daysLeft} d?as.`;
+            betaRemainingEl.style.display = "block";
+          } else {
+            betaRemainingEl.style.display = "none";
+          }
         }
       };
       if (hasAccess()) {
