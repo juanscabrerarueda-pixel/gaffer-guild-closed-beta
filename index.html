@@ -571,17 +571,17 @@
         if (betaRemainingHeroEl) {
           betaRemainingHeroEl.classList.remove("status-chip--inactive");
           if (daysLeft) {
-            betaRemainingHeroEl.textContent = `Beta activa: te quedan ${daysLeft} d?as.`;
+            betaRemainingHeroEl.textContent = `Beta activa: te quedan ${daysLeft} días.`;
           } else {
             betaRemainingHeroEl.classList.add("status-chip--inactive");
             betaRemainingHeroEl.innerHTML =
-              'Beta no activa en este navegador. <a href="#signup">Solicita acceso m?s abajo.</a>';
+              'Beta no activa en este navegador. <a href="#signup">Solicita acceso más abajo.</a>';
           }
           betaRemainingHeroEl.style.display = "block";
         }
         if (betaRemainingEl) {
           if (daysLeft) {
-            betaRemainingEl.textContent = `Beta activa: te quedan ${daysLeft} d?as.`;
+            betaRemainingEl.textContent = `Beta activa: te quedan ${daysLeft} días.`;
             betaRemainingEl.style.display = "block";
           } else {
             betaRemainingEl.style.display = "none";
