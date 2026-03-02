@@ -256,11 +256,12 @@
             <h1>Tu kit de rodaje, en el bolsillo.</h1>
             <p>
               Beta cerrada para equipos reales. Mide, planifica y exporta en
-              minutos. Acceso solo para testers verificados (email OTP). Google
-              login pronto.
+              minutos. Acceso solo para testers verificados (email OTP o Google).
+              El acceso requiere aprobación previa del correo en la beta.
             </p>
             <div class="cta-row">
               <a class="button secondary" href="#signup">Pedir acceso</a>
+              <button class="button secondary" id="hero-google">Continuar con Google</button>
               <a class="button" id="open-app" href="./app/" style="display:none;">Abrir web app</a>
             </div>
           </div>
@@ -410,7 +411,10 @@
         <p>
           Registra tu correo para acceder a la beta cerrada. Al enviar el
           formulario recibiras un codigo de verificacion para confirmar tu
-          acceso. Login por Google estara disponible pronto.
+          acceso. Tambien puedes verificar con Google.
+        </p>
+        <p class="status" style="margin-top: 6px;">
+          Nota: el acceso solo se habilita si tu correo está aprobado en la beta.
         </p>
         <div class="field">
           <label for="email">Email</label>
@@ -438,6 +442,9 @@
           </select>
         </div>
         <button class="button" id="submit">Solicitar acceso</button>
+        <div class="cta-row" style="margin-top: 12px;">
+          <button class="button secondary" id="google-login">Continuar con Google</button>
+        </div>
         <div id="otp-block" style="display:none;">
           <div class="field">
             <label for="otp">Codigo de verificacion</label>
@@ -467,6 +474,8 @@
       const statusEl = document.getElementById("status");
       const openAppBtn = document.getElementById("open-app");
       const submitBtn = document.getElementById("submit");
+      const googleBtn = document.getElementById("google-login");
+      const heroGoogleBtn = document.getElementById("hero-google");
       const otpBlock = document.getElementById("otp-block");
       const verifyBtn = document.getElementById("verify");
       const resendBtn = document.getElementById("resend");
@@ -606,6 +615,24 @@
           submitBtn.disabled = false;
         }
       });
+
+      const handleGoogleLogin = (event) => {
+        event.preventDefault();
+        if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL.includes("SUPABASE")) {
+          setStatus("Google login requiere Supabase configurado.", true);
+          return;
+        }
+        const redirectTo = `${window.location.origin}/gaffer-guild-closed-beta/app/`;
+        const oauthUrl = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(redirectTo)}`;
+        window.location.href = oauthUrl;
+      };
+
+      if (googleBtn) {
+        googleBtn.addEventListener("click", handleGoogleLogin);
+      }
+      if (heroGoogleBtn) {
+        heroGoogleBtn.addEventListener("click", handleGoogleLogin);
+      }
 
       verifyBtn.addEventListener("click", async (event) => {
         event.preventDefault();
