@@ -66,6 +66,32 @@
         font-size: clamp(28px, 3.6vw, 44px);
         letter-spacing: 0.4px;
       }
+
+      .status-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 255, 0.4);
+        background: rgba(15, 23, 42, 0.7);
+        color: #dbeafe;
+        font-size: 13px;
+        letter-spacing: 0.3px;
+      }
+      .status-chip a {
+        color: var(--accent);
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+      }
+      .status-chip a:hover {
+        border-bottom-color: var(--accent);
+      }
+      .status-chip--inactive {
+        border-color: rgba(248, 113, 113, 0.45);
+        background: rgba(30, 41, 59, 0.8);
+        color: #fecaca;
+      }
       h2 {
         margin: 0 0 12px;
         font-size: clamp(22px, 3vw, 32px);
@@ -249,7 +275,7 @@
   <body>
     <main>
       <section class="hero">
-        <p id="beta-remaining-hero" class="status"></p>
+        <p id="beta-remaining-hero" class="status status-chip"></p>
         <span class="badge">Closed Beta</span>
         <div class="hero-grid">
           <div>
@@ -543,9 +569,11 @@
       const renderDaysLeft = () => {
         const daysLeft = getDaysLeft();
         if (betaRemainingHeroEl) {
+          betaRemainingHeroEl.classList.remove("status-chip--inactive");
           if (daysLeft) {
             betaRemainingHeroEl.textContent = `Beta activa: te quedan ${daysLeft} d?as.`;
           } else {
+            betaRemainingHeroEl.classList.add("status-chip--inactive");
             betaRemainingHeroEl.innerHTML =
               'Beta no activa en este navegador. <a href="#signup">Solicita acceso m?s abajo.</a>';
           }
