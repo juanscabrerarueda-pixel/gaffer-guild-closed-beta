@@ -259,6 +259,7 @@
               minutos. Acceso solo para testers verificados (email OTP o Google).
               El acceso requiere aprobación previa del correo en la beta.
             </p>
+            <p id="beta-remaining-hero" class="status" style="display:none;"></p>
             <div class="cta-row">
               <a class="button secondary" href="#signup">Pedir acceso</a>
               <button class="button secondary" id="hero-google">Continuar con Google</button>
@@ -456,6 +457,7 @@
           </div>
         </div>
         <div id="status" class="status"></div>
+        <div id="beta-remaining" class="status" style="display:none;"></div>
         <p class="footer">
           Usaremos tu email solo para contactarte sobre la beta. No spam.
         </p>
@@ -472,6 +474,8 @@
       const ACCESS_TTL_DAYS = 30;
       const ACCESS_TTL_MS = ACCESS_TTL_DAYS * 24 * 60 * 60 * 1000;
       const statusEl = document.getElementById("status");
+      const betaRemainingEl = document.getElementById("beta-remaining");
+      const betaRemainingHeroEl = document.getElementById("beta-remaining-hero");
       const openAppBtn = document.getElementById("open-app");
       const submitBtn = document.getElementById("submit");
       const googleBtn = document.getElementById("google-login");
@@ -524,9 +528,35 @@
           return false;
         }
       };
+      const getDaysLeft = () => {
+        try {
+          const raw = window.localStorage.getItem(storageKey);
+          const expiresAt = raw ? Number(raw) : 0;
+          if (!expiresAt || Number.isNaN(expiresAt)) return 0;
+          const remainingMs = expiresAt - Date.now();
+          if (remainingMs <= 0) return 0;
+          return Math.max(0, Math.ceil(remainingMs / (24 * 60 * 60 * 1000)));
+        } catch {
+          return 0;
+        }
+      };
+      const renderDaysLeft = () => {
+        const daysLeft = getDaysLeft();
+        if (!daysLeft) return;
+        const message = `Beta activa: te quedan ${daysLeft} días.`;
+        if (betaRemainingEl) {
+          betaRemainingEl.textContent = message;
+          betaRemainingEl.style.display = "block";
+        }
+        if (betaRemainingHeroEl) {
+          betaRemainingHeroEl.textContent = message;
+          betaRemainingHeroEl.style.display = "block";
+        }
+      };
       if (hasAccess()) {
         openAppBtn.style.display = "inline-flex";
       }
+      renderDaysLeft();
       try {
         const cachedEmail = window.localStorage.getItem("gg_beta_email");
         if (cachedEmail && !emailInput.value) {
