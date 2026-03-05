@@ -1,434 +1,5 @@
-<!doctype html>
-<html lang="es">
-  <head>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta name="x-release-id" content="2026-03-05T17:01:35.790Z">
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Gaffer Guild - Closed Beta</title>
-    <link rel="icon" href="./favicon.png" type="image/png" />
-    <link rel="shortcut icon" href="./favicon.ico" />
-    <style>
-      :root {
-        color-scheme: light;
-        --bg: #0b1225;
-        --panel: #0f1a36;
-        --card: #121f42;
-        --text: #f8fafc;
-        --muted: #c7d2fe;
-        --accent: #38bdf8;
-        --accent-2: #f97316;
-        --outline: rgba(148, 163, 255, 0.18);
-      }
-      * {
-        box-sizing: border-box;
-      }
-      body {
-        margin: 0;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background:
-          radial-gradient(1000px 600px at 70% -10%, #1f2b5b 0%, transparent 70%),
-          radial-gradient(800px 500px at -10% 10%, #16213f 0%, transparent 65%),
-          var(--bg);
-        color: var(--text);
-      }
-      main {
-        max-width: 1080px;
-        margin: 0 auto;
-        padding: 72px 24px 96px;
-        display: grid;
-        gap: 36px;
-      }
-      .hero {
-        display: grid;
-        gap: 24px;
-        background: linear-gradient(145deg, rgba(18, 31, 66, 0.95), rgba(10, 16, 35, 0.95));
-        border-radius: 28px;
-        padding: 32px;
-        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.4);
-      }
-      .hero-grid {
-        display: grid;
-        gap: 24px;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        align-items: center;
-      }
-      .badge {
-        display: inline-flex;
-        gap: 6px;
-        align-items: center;
-        padding: 6px 12px;
-        border-radius: 999px;
-        background: rgba(56, 189, 248, 0.15);
-        color: #bae6fd;
-        font-size: 12px;
-        letter-spacing: 0.5px;
-        text-transform: uppercase;
-      }
-      .lang-toggle {
-        position: sticky;
-        top: 16px;
-        z-index: 5;
-        display: inline-flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 14px;
-        border-radius: 999px;
-        background: rgba(15, 23, 42, 0.92);
-        border: 1px solid rgba(148, 163, 255, 0.35);
-        box-shadow: 0 12px 32px rgba(8, 15, 35, 0.45);
-        color: var(--muted);
-        font-size: 12px;
-        letter-spacing: 0.6px;
-        width: fit-content;
-        margin-left: auto;
-      }
-      .lang-label {
-        text-transform: uppercase;
-        opacity: 0.85;
-        font-weight: 700;
-      }
-      .lang-btn {
-        border-radius: 999px;
-        border: 1px solid rgba(148, 163, 255, 0.4);
-        background: rgba(15, 23, 42, 0.7);
-        color: #dbeafe;
-        padding: 6px 14px;
-        font-size: 12px;
-        letter-spacing: 0.6px;
-        cursor: pointer;
-        font-weight: 700;
-        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-      }
-      .lang-btn:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 10px 20px rgba(56, 189, 248, 0.15);
-      }
-      .lang-btn.active {
-        border-color: var(--accent-2);
-        color: #0b0f1f;
-        background: var(--accent-2);
-        box-shadow: 0 10px 24px rgba(249, 115, 22, 0.35);
-      }
-      h1 {
-        margin: 0 0 12px;
-        font-size: clamp(28px, 3.6vw, 44px);
-        letter-spacing: 0.4px;
-      }
-
-      .status-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 14px;
-        border-radius: 999px;
-        border: 1px solid rgba(148, 163, 255, 0.4);
-        background: rgba(15, 23, 42, 0.7);
-        color: #dbeafe;
-        font-size: 13px;
-        letter-spacing: 0.3px;
-      }
-      .status-chip a {
-        color: var(--accent);
-        text-decoration: none;
-        border-bottom: 1px solid transparent;
-      }
-      .status-chip a:hover {
-        border-bottom-color: var(--accent);
-      }
-      .status-chip--inactive {
-        border-color: rgba(248, 113, 113, 0.45);
-        background: rgba(30, 41, 59, 0.8);
-        color: #fecaca;
-      }
-      h2 {
-        margin: 0 0 12px;
-        font-size: clamp(22px, 3vw, 32px);
-      }
-      h3 {
-        margin: 0 0 10px;
-        font-size: 18px;
-      }
-      p {
-        margin: 0;
-        color: var(--muted);
-        line-height: 1.6;
-      }
-      .cta-row {
-        margin-top: 20px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-      }
-      .button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-        padding: 12px 20px;
-        border-radius: 999px;
-        text-decoration: none;
-        font-weight: 700;
-        background: var(--accent-2);
-        color: #0b0f1f;
-        border: none;
-        cursor: pointer;
-      }
-      .button.secondary {
-        background: transparent;
-        color: var(--accent);
-        border: 1px solid rgba(148, 163, 255, 0.4);
-      }
-      .hero-image {
-        border-radius: 18px;
-        border: 1px solid var(--outline);
-        overflow: hidden;
-        background: #0a1026;
-      }
-      .hero-image img {
-        width: 100%;
-        display: block;
-      }
-      .logo {
-        max-width: 260px;
-      }
-      .beta-banner {
-        width: 100%;
-        border-radius: 18px;
-        border: 1px solid var(--outline);
-        display: block;
-        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
-      }
-      .grid {
-        display: grid;
-        gap: 16px;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      }
-      .card {
-        background: rgba(15, 23, 42, 0.75);
-        border-radius: 18px;
-        padding: 18px;
-        border: 1px solid var(--outline);
-      }
-      .section {
-        display: grid;
-        gap: 18px;
-      }
-      .module-grid {
-        display: grid;
-        gap: 16px;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      }
-      .role-tabs {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-      .role-tab {
-        border-radius: 999px;
-        border: 1px solid rgba(148, 163, 255, 0.4);
-        background: rgba(15, 23, 42, 0.7);
-        color: #dbeafe;
-        padding: 8px 16px;
-        font-size: 12px;
-        letter-spacing: 0.6px;
-        cursor: pointer;
-        font-weight: 700;
-        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-      }
-      .role-tab:hover {
-        transform: translateY(-1px);
-        box-shadow: 0 10px 20px rgba(56, 189, 248, 0.15);
-      }
-      .role-tab.active {
-        border-color: var(--accent-2);
-        color: #0b0f1f;
-        background: var(--accent-2);
-        box-shadow: 0 10px 24px rgba(249, 115, 22, 0.35);
-      }
-      .role-panel {
-        display: none;
-      }
-      .role-panel.active {
-        display: block;
-      }
-      .module-card {
-        background: rgba(12, 18, 37, 0.92);
-        border-radius: 18px;
-        border: 1px solid var(--outline);
-        padding: 16px;
-        display: grid;
-        gap: 10px;
-        align-content: start;
-      }
-      .module-icon {
-        width: 100%;
-        border-radius: 14px;
-        border: 1px solid rgba(148, 163, 255, 0.12);
-        display: block;
-      }
-      .module-card h3 {
-        margin: 0;
-        font-size: 16px;
-      }
-      .module-card p {
-        font-size: 13px;
-        color: #b7c3f7;
-      }
-      .role-grid {
-        display: grid;
-        gap: 16px;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      }
-      .role-card {
-        background: rgba(12, 18, 37, 0.92);
-        border-radius: 18px;
-        border: 1px solid var(--outline);
-        padding: 16px;
-        display: grid;
-        gap: 12px;
-        justify-items: center;
-        text-align: center;
-      }
-      .role-card img {
-        width: 140px;
-        height: 140px;
-        object-fit: contain;
-        border-radius: 18px;
-        background: #0a1026;
-        border: 1px solid rgba(148, 163, 255, 0.12);
-      }
-      .role-card h3 {
-        margin: 0;
-        font-size: 16px;
-      }
-      .role-card p {
-        margin: 0;
-        font-size: 13px;
-        color: #b7c3f7;
-      }
-      .footer {
-        color: #94a3b8;
-        font-size: 12px;
-      }
-      .form {
-        display: grid;
-        gap: 12px;
-        background: rgba(15, 23, 42, 0.75);
-        border-radius: 18px;
-        padding: 18px;
-        border: 1px solid var(--outline);
-      }
-      .field {
-        display: grid;
-        gap: 6px;
-      }
-      label {
-        font-size: 13px;
-        color: var(--muted);
-      }
-      input,
-      select,
-      textarea {
-        background: #0f172a;
-        color: var(--text);
-        border: 1px solid rgba(148, 163, 255, 0.2);
-        border-radius: 10px;
-        padding: 10px 12px;
-        font-size: 14px;
-      }
-      .status {
-        font-size: 13px;
-        color: #a5b4fc;
-      }
-      .status.error {
-        color: #fca5a5;
-      }
-      @media (max-width: 820px) {
-        main {
-          padding: 48px 18px 72px;
-        }
-        .hero {
-          padding: 24px;
-        }
-      }
-    </style>
-  </head>
-  <body>
-    <main>
-      <div class="lang-toggle">
-        <span class="lang-label" data-i18n="lang.label">Idioma</span>
-        <button class="lang-btn" data-lang="es">ES</button>
-        <button class="lang-btn" data-lang="en">EN</button>
-      </div>
-      <section class="hero">
-        <p id="beta-remaining-hero" class="status status-chip"></p>
-        <span class="badge" data-i18n="hero.badge">Closed Beta</span>
-        <div class="hero-grid">
-          <div>
-            <img class="logo" src="assets/branding/gg-logo-title.png" alt="Gaffer Guild" />
-            <h1 data-i18n="hero.title">Tu kit de rodaje, en el bolsillo.</h1>
-            <p data-i18n="hero.subtitle">
-              Beta cerrada para equipos reales. Mide, planifica y exporta en
-              minutos. Acceso solo para testers verificados (email OTP o Google).
-              El acceso requiere aprobación previa del correo en la beta.
-            </p>
-            <div class="cta-row">
-              <a class="button secondary" href="#signup" data-i18n="hero.cta.request">Pedir acceso</a>
-              <button class="button secondary" id="hero-google" data-i18n="hero.cta.google">
-                Continuar con Google
-              </button>
-            </div>
-          </div>
-          <div class="hero-image">
-            <img class="beta-banner" src="assets/branding/banner-beta.png" alt="Banner beta Gaffer Guild" />
-          </div>
-        </div>
-      </section>
-
-      <section class="grid">
-        <div class="card">
-          <h3 data-i18n="feature.measure.title">Mediciones reales</h3>
-          <p data-i18n="feature.measure.body">Lux, T-stop, continuidad y reportes listos para exportar.</p>
-        </div>
-        <div class="card">
-          <h3 data-i18n="feature.roles.title">Roles claros</h3>
-          <p data-i18n="feature.roles.body">Dashboards pensados para Produccion, AC y Gaffer.</p>
-        </div>
-        <div class="card">
-          <h3 data-i18n="feature.offline.title">Offline first</h3>
-          <p data-i18n="feature.offline.body">Trabaja sin conexion y exporta apenas vuelvas a linea.</p>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2 data-i18n="roles.title">Roles diseñados para rodaje</h2>
-        <p data-i18n="roles.body">Cada perfil recibe paneles y flujos alineados con su trabajo diario.</p>
-        <div class="role-grid">
-          <div class="role-card">
-            <img src="assets/roles/producer.png" alt="Produccion" />
-            <h3 data-i18n="roles.producer.title">Produccion</h3>
-            <p data-i18n="roles.producer.body">Control total de reportes, presupuesto y entregables.</p>
-          </div>
-          <div class="role-card">
-            <img src="assets/roles/ac.png" alt="Asistente de camara" />
-            <h3 data-i18n="roles.ac.title">AC / Asistente de camara</h3>
-            <p data-i18n="roles.ac.body">Claqueta, camera report y datos precisos de toma.</p>
-          </div>
-          <div class="role-card">
-            <img src="assets/roles/gaffer.png" alt="Gaffer" />
-            <h3 data-i18n="roles.gaffer.title">Gaffer</h3>
-            <p data-i18n="roles.gaffer.body">Fotometria, contraste y control de exposicion en set.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="section">
-        <h2 data-i18n="rolemodules.title">Explora por rol</h2>
-        <p data-i18n="rolemodules.body">
-          Cada rol tiene un flujo distinto. Explora los módulos clave para cada perfil.
-        </p>
+      <section class="section section-surface">
+        <div class="section-head"><span class="eyebrow" data-i18n="rolemodules.eyebrow">Vista del producto</span><h2 data-i18n="rolemodules.title">Explora por rol</h2><p data-i18n="rolemodules.body">Cada rol tiene un flujo distinto. Explora los modulos clave para cada perfil.</p></div>
         <div class="role-tabs" role="tablist" aria-label="Roles">
           <button class="role-tab active" data-role-target="production" data-i18n="rolemodules.tab.production">Produccion</button>
           <button class="role-tab" data-role-target="ac" data-i18n="rolemodules.tab.ac">AC / Asistente de camara</button>
@@ -436,195 +7,74 @@
         </div>
         <div class="role-panel active" data-role-panel="production">
           <div class="module-grid">
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/call-sheet.png" alt="Call sheet" />
-              <h3 data-i18n="modules.callsheet.title">Call Sheet</h3>
-              <p data-i18n="modules.callsheet.body">Plan del dia, seguridad y export PDF.</p>
-            </div>
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/presupuesto.png" alt="Presupuesto" />
-              <h3 data-i18n="modules.budget.title">Presupuesto</h3>
-              <p data-i18n="modules.budget.body">Costos por dia con export CSV/PDF.</p>
-            </div>
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/inventario.png" alt="Inventario" />
-              <h3 data-i18n="modules.inventory.title">Inventario</h3>
-              <p data-i18n="modules.inventory.body">Herramientas y arsenal con export PDF.</p>
-            </div>
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/scouting.png" alt="Scouting" />
-              <h3 data-i18n="modules.scouting.title">Scouting</h3>
-              <p data-i18n="modules.scouting.body">Registros por locacion con lux y T-stop.</p>
-            </div>
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/teams.png" alt="Teams" />
-              <h3 data-i18n="modules.teams.title">Teams</h3>
-              <p data-i18n="modules.teams.body">Invita miembros y comparte snapshots de proyecto.</p>
-            </div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/call-sheet.png" alt="Call sheet" /><h3 data-i18n="modules.callsheet.title">Call Sheet</h3><p data-i18n="modules.callsheet.body">Plan del dia, seguridad y export PDF.</p></div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/presupuesto.png" alt="Presupuesto" /><h3 data-i18n="modules.budget.title">Presupuesto</h3><p data-i18n="modules.budget.body">Costos por dia con export CSV/PDF.</p></div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/inventario.png" alt="Inventario" /><h3 data-i18n="modules.inventory.title">Inventario</h3><p data-i18n="modules.inventory.body">Herramientas y arsenal con export PDF.</p></div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/scouting.png" alt="Scouting" /><h3 data-i18n="modules.scouting.title">Scouting</h3><p data-i18n="modules.scouting.body">Registros por locacion con lux y T-stop.</p></div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/teams.png" alt="Teams" /><h3 data-i18n="modules.teams.title">Teams</h3><p data-i18n="modules.teams.body">Invita miembros y comparte snapshots de proyecto.</p></div>
           </div>
         </div>
         <div class="role-panel" data-role-panel="ac">
           <div class="module-grid">
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/config-camera.png" alt="Configuracion de camara" />
-              <h3 data-i18n="modules.camera.title">Configuracion de camara</h3>
-              <p data-i18n="modules.camera.body">ISO, T-stop, FPS y ND con coherencia tecnica.</p>
-            </div>
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/campo-vision.png" alt="Campo de vision" />
-              <h3 data-i18n="modules.fov.title">Campo de vision</h3>
-              <p data-i18n="modules.fov.body">FoV confiable para decidir encuadres y lentes.</p>
-            </div>
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/relacion-contraste.png" alt="Relacion de contraste" />
-              <h3 data-i18n="modules.contrast.title">Relacion de contraste</h3>
-              <p data-i18n="modules.contrast.body">Key/fill en stops para decisiones objetivas.</p>
-            </div>
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/contraste-cromatico.png" alt="Contraste cromatico" />
-              <h3 data-i18n="modules.chromatic.title">Contraste cromatico</h3>
-              <p data-i18n="modules.chromatic.body">Balance de CCT y tinte entre key/fill.</p>
-            </div>
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/claqueta.png" alt="Claqueta" />
-              <h3 data-i18n="modules.slate.title">Claqueta</h3>
-              <p data-i18n="modules.slate.body">Metadatos de toma listos para continuidad.</p>
-            </div>
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/camera-report.png" alt="Camera report" />
-              <h3 data-i18n="modules.camerareport.title">Camera Report</h3>
-              <p data-i18n="modules.camerareport.body">Export profesional PDF/CSV sin duplicar data.</p>
-            </div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/config-camera.png" alt="Configuracion de camara" /><h3 data-i18n="modules.camera.title">Configuracion de camara</h3><p data-i18n="modules.camera.body">ISO, T-stop, FPS y ND con coherencia tecnica.</p></div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/campo-vision.png" alt="Campo de vision" /><h3 data-i18n="modules.fov.title">Campo de vision</h3><p data-i18n="modules.fov.body">FoV confiable para decidir encuadres y lentes.</p></div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/relacion-contraste.png" alt="Relacion de contraste" /><h3 data-i18n="modules.contrast.title">Relacion de contraste</h3><p data-i18n="modules.contrast.body">Key/fill en stops para decisiones objetivas.</p></div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/contraste-cromatico.png" alt="Contraste cromatico" /><h3 data-i18n="modules.chromatic.title">Contraste cromatico</h3><p data-i18n="modules.chromatic.body">Balance de CCT y tinte entre key/fill.</p></div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/claqueta.png" alt="Claqueta" /><h3 data-i18n="modules.slate.title">Claqueta</h3><p data-i18n="modules.slate.body">Metadatos de toma listos para continuidad.</p></div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/camera-report.png" alt="Camera report" /><h3 data-i18n="modules.camerareport.title">Camera Report</h3><p data-i18n="modules.camerareport.body">Export profesional PDF/CSV sin duplicar data.</p></div>
           </div>
         </div>
         <div class="role-panel" data-role-panel="gaffer">
           <div class="module-grid">
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/config-camera.png" alt="Configuracion de camara" />
-              <h3 data-i18n="modules.camera.title">Configuracion de camara</h3>
-              <p data-i18n="modules.camera.body">ISO, T-stop, FPS y ND con coherencia tecnica.</p>
-            </div>
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/relacion-contraste.png" alt="Relacion de contraste" />
-              <h3 data-i18n="modules.contrast.title">Relacion de contraste</h3>
-              <p data-i18n="modules.contrast.body">Key/fill en stops para decisiones objetivas.</p>
-            </div>
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/contraste-cromatico.png" alt="Contraste cromatico" />
-              <h3 data-i18n="modules.chromatic.title">Contraste cromatico</h3>
-              <p data-i18n="modules.chromatic.body">Balance de CCT y tinte entre key/fill.</p>
-            </div>
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/false-color.png" alt="False color" />
-              <h3 data-i18n="modules.falsecolor.title">False Color</h3>
-              <p data-i18n="modules.falsecolor.body">IRE chart por preset de camara para exponer rapido.</p>
-            </div>
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/campo-vision.png" alt="Campo de vision" />
-              <h3 data-i18n="modules.fov.title">Campo de vision</h3>
-              <p data-i18n="modules.fov.body">FoV confiable para decidir encuadres y lentes.</p>
-            </div>
-            <div class="module-card">
-              <img class="module-icon" src="assets/modules/aparatos-luz.png" alt="Aparatos de luz" />
-              <h3 data-i18n="modules.fixtures.title">Aparatos de luz</h3>
-              <p data-i18n="modules.fixtures.body">Guia rapida de fixtures y caida de luz.</p>
-            </div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/config-camera.png" alt="Configuracion de camara" /><h3 data-i18n="modules.camera.title">Configuracion de camara</h3><p data-i18n="modules.camera.body">ISO, T-stop, FPS y ND con coherencia tecnica.</p></div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/relacion-contraste.png" alt="Relacion de contraste" /><h3 data-i18n="modules.contrast.title">Relacion de contraste</h3><p data-i18n="modules.contrast.body">Key/fill en stops para decisiones objetivas.</p></div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/contraste-cromatico.png" alt="Contraste cromatico" /><h3 data-i18n="modules.chromatic.title">Contraste cromatico</h3><p data-i18n="modules.chromatic.body">Balance de CCT y tinte entre key/fill.</p></div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/false-color.png" alt="False color" /><h3 data-i18n="modules.falsecolor.title">False Color</h3><p data-i18n="modules.falsecolor.body">IRE chart por preset de camara para exponer rapido.</p></div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/campo-vision.png" alt="Campo de vision" /><h3 data-i18n="modules.fov.title">Campo de vision</h3><p data-i18n="modules.fov.body">FoV confiable para decidir encuadres y lentes.</p></div>
+            <div class="module-card"><img class="module-icon" src="assets/modules/aparatos-luz.png" alt="Aparatos de luz" /><h3 data-i18n="modules.fixtures.title">Aparatos de luz</h3><p data-i18n="modules.fixtures.body">Guia rapida de fixtures y caida de luz.</p></div>
           </div>
         </div>
       </section>
-
-      <section class="section">
-        <h2 data-i18n="plans.title">Planes Season Pass (All-Access)</h2>
-        <p data-i18n="plans.body">Todo incluido mientras la licencia este activa. Sin tiers por modulo.</p>
-        <div class="grid">
-          <div class="card">
-            <h3 data-i18n="plans.month.title">Mensual</h3>
-            <p data-i18n="plans.month.body">$6 / mes</p>
-          </div>
-          <div class="card">
-            <h3 data-i18n="plans.three.title">3 meses</h3>
-            <p data-i18n="plans.three.body">$17 / 3 meses</p>
-          </div>
-          <div class="card">
-            <h3 data-i18n="plans.six.title">6 meses</h3>
-            <p data-i18n="plans.six.body">$33 / 6 meses</p>
-          </div>
-          <div class="card">
-            <h3 data-i18n="plans.year.title">Anual</h3>
-            <p data-i18n="plans.year.body">$60 / anio</p>
-          </div>
-          <div class="card">
-            <h3 data-i18n="plans.team.title">Team 5 seats</h3>
-            <p data-i18n="plans.team.body">$25 / mes</p>
-          </div>
-          <div class="card">
-            <h3 data-i18n="plans.studio.title">Studio 15 seats</h3>
-            <p data-i18n="plans.studio.body">$60 / mes</p>
-          </div>
-        </div>
-      </section>
-
       <section id="signup" class="form">
-        <span class="badge" data-i18n="form.badge">Registro beta</span>
-        <p data-i18n="form.body">
-          Registra tu correo para acceder a la beta cerrada. Al enviar el
-          formulario recibiras un codigo de verificacion para confirmar tu
-          acceso. Tambien puedes verificar con Google.
-        </p>
-        <p class="status" style="margin-top: 6px;" data-i18n="form.note">
-          Nota: el acceso solo se habilita si tu correo está aprobado en la beta.
-        </p>
-        <div class="field">
-          <label for="email" data-i18n="form.email.label">Email</label>
-          <input id="email" type="email" placeholder="correo@dominio.com" data-i18n-placeholder="form.email.placeholder" required />
-        </div>
-        <div class="field">
-          <label for="role" data-i18n="form.role.label">Rol</label>
-          <select id="role">
-            <option value="gaffer" data-i18n="form.role.gaffer">Gaffer</option>
-            <option value="ac" data-i18n="form.role.ac">AC</option>
-            <option value="production" data-i18n="form.role.production">Produccion</option>
-            <option value="other" data-i18n="form.role.other">Otro</option>
-          </select>
-        </div>
-        <div class="field">
-          <label for="country" data-i18n="form.country.label">Pais</label>
-          <input id="country" type="text" placeholder="Colombia" data-i18n-placeholder="form.country.placeholder" />
-        </div>
-        <div class="field">
-          <label for="platform" data-i18n="form.platform.label">Plataforma</label>
-          <select id="platform">
-            <option value="web" data-i18n="form.platform.web">Web</option>
-            <option value="ios" data-i18n="form.platform.ios">iOS</option>
-            <option value="android" data-i18n="form.platform.android">Android</option>
-          </select>
-        </div>
-        <button class="button" id="submit" data-i18n="form.submit">Solicitar acceso</button>
-        <div class="cta-row" style="margin-top: 12px;">
-          <button class="button secondary" id="google-login" data-i18n="form.google">
-            Continuar con Google
-          </button>
-        </div>
-        <div id="otp-block" style="display:none;">
-          <div class="field">
-            <label for="otp" data-i18n="form.otp.label">Codigo de verificacion</label>
-            <input id="otp" type="text" placeholder="123456" data-i18n-placeholder="form.otp.placeholder" />
+        <div class="signup-grid">
+          <div class="signup-copy">
+            <span class="badge" data-i18n="form.badge">Registro beta</span>
+            <span class="eyebrow" data-i18n="form.eyebrow">Acceso para testers verificados</span>
+            <h2 data-i18n="form.title">Solicita acceso a la closed beta</h2>
+            <p data-i18n="form.body">Registra tu correo para acceder a la beta cerrada. Al enviar el formulario recibiras un codigo de verificacion para confirmar tu acceso. Tambien puedes verificar con Google.</p>
+            <p class="status" data-i18n="form.note">Nota: el acceso solo se habilita si tu correo esta aprobado en la beta.</p>
+            <div class="signup-list">
+              <div class="signup-list-item"><span data-i18n="form.bullet.one">Accede a la web app hoy con OTP o Google.</span></div>
+              <div class="signup-list-item"><span data-i18n="form.bullet.two">Tu beta queda activa por 30 dias en este navegador despues de verificar.</span></div>
+              <div class="signup-list-item"><span data-i18n="form.bullet.three">Usaremos tu correo solo para gestionar acceso, soporte y seguimiento de la beta.</span></div>
+            </div>
           </div>
-          <div class="cta-row">
-            <button class="button" id="verify" data-i18n="form.otp.confirm">Confirmar codigo</button>
-            <button class="button secondary" id="resend" data-i18n="form.otp.resend">Reenviar codigo</button>
+          <div class="form-panel">
+            <div class="field"><label for="email" data-i18n="form.email.label">Email</label><input id="email" type="email" placeholder="correo@dominio.com" data-i18n-placeholder="form.email.placeholder" required /></div>
+            <div class="field"><label for="role" data-i18n="form.role.label">Rol</label><select id="role"><option value="gaffer" data-i18n="form.role.gaffer">Gaffer</option><option value="ac" data-i18n="form.role.ac">AC</option><option value="production" data-i18n="form.role.production">Produccion</option><option value="other" data-i18n="form.role.other">Otro</option></select></div>
+            <div class="field"><label for="country" data-i18n="form.country.label">Pais</label><input id="country" type="text" placeholder="Colombia" data-i18n-placeholder="form.country.placeholder" /></div>
+            <div class="field"><label for="platform" data-i18n="form.platform.label">Plataforma</label><select id="platform"><option value="web" data-i18n="form.platform.web">Web</option><option value="ios" data-i18n="form.platform.ios">iOS</option><option value="android" data-i18n="form.platform.android">Android</option></select></div>
+            <button class="button" id="submit" data-i18n="form.submit">Solicitar acceso</button>
+            <div class="cta-row"><button class="button secondary" id="google-login" data-i18n="form.google">Continuar con Google</button></div>
+            <div id="otp-block" style="display:none;"><div class="field"><label for="otp" data-i18n="form.otp.label">Codigo de verificacion</label><input id="otp" type="text" placeholder="123456" data-i18n-placeholder="form.otp.placeholder" /></div><div class="cta-row"><button class="button" id="verify" data-i18n="form.otp.confirm">Confirmar codigo</button><button class="button secondary" id="resend" data-i18n="form.otp.resend">Reenviar codigo</button></div></div>
+            <div id="status" class="status"></div>
+            <div id="beta-remaining" class="status" style="display:none;"></div>
+            <p class="footer" data-i18n="form.footer">Usaremos tu email solo para contactarte sobre la beta. No spam.</p>
           </div>
         </div>
-        <div id="status" class="status"></div>
-        <div id="beta-remaining" class="status" style="display:none;"></div>
-        <p class="footer" data-i18n="form.footer">
-          Usaremos tu email solo para contactarte sobre la beta. No spam.
-        </p>
       </section>
-
-      <section class="footer">
-        <span data-i18n="footer.note">Beta cerrada. Algunas funciones pueden cambiar durante pruebas.</span>
+      <section class="section">
+        <div class="section-head"><span class="eyebrow" data-i18n="plans.eyebrow">Modelo comercial</span><h2 data-i18n="plans.title">Planes Season Pass (All-Access)</h2><p data-i18n="plans.body">Todo incluido mientras la licencia este activa. Sin tiers por modulo.</p></div>
+        <div class="pricing-grid">
+          <div class="pricing-card"><h3 data-i18n="plans.month.title">Mensual</h3><strong data-i18n="plans.month.body">$6 / mes</strong></div>
+          <div class="pricing-card"><h3 data-i18n="plans.three.title">3 meses</h3><strong data-i18n="plans.three.body">$17 / 3 meses</strong></div>
+          <div class="pricing-card featured"><h3 data-i18n="plans.six.title">6 meses</h3><strong data-i18n="plans.six.body">$33 / 6 meses</strong></div>
+          <div class="pricing-card"><h3 data-i18n="plans.year.title">Anual</h3><strong data-i18n="plans.year.body">$60 / ano</strong></div>
+          <div class="pricing-card"><h3 data-i18n="plans.team.title">Team 5 seats</h3><strong data-i18n="plans.team.body">$25 / mes</strong></div>
+          <div class="pricing-card"><h3 data-i18n="plans.studio.title">Studio 15 seats</h3><strong data-i18n="plans.studio.body">$60 / mes</strong></div>
+        </div>
       </section>
+      <section class="footer footer-meta"><span data-i18n="footer.note">Beta cerrada. Algunas funciones pueden cambiar durante pruebas.</span><div class="footer-links"><a href="#signup" data-i18n="footer.link.beta">Solicitar acceso</a><a href="./app/" data-i18n="footer.link.app">Ir a la app</a></div></section>
     </main>
     <script>
       const SUPABASE_URL = "https://urusurtolzxowfbiulro.supabase.co";
@@ -636,18 +86,48 @@
         es: {
           "lang.label": "Idioma",
           "hero.badge": "Closed Beta",
+          "hero.eyebrow": "Herramientas reales para set real",
           "hero.title": "Tu kit de rodaje, en el bolsillo.",
-          "hero.subtitle":
-            "Beta cerrada para equipos reales. Mide, planifica y exporta en minutos. Acceso solo para testers verificados (email OTP o Google). El acceso requiere aprobación previa del correo en la beta.",
+          "hero.subtitle": "Beta cerrada para equipos reales. Mide, planifica y exporta en minutos. Acceso solo para testers verificados (email OTP o Google). El acceso requiere aprobacion previa del correo en la beta.",
           "hero.cta.request": "Pedir acceso",
           "hero.cta.google": "Continuar con Google",
-          "feature.measure.title": "Mediciones reales",
-          "feature.measure.body": "Lux, T-stop, continuidad y reportes listos para exportar.",
-          "feature.roles.title": "Roles claros",
-          "feature.roles.body": "Dashboards pensados para Produccion, AC y Gaffer.",
-          "feature.offline.title": "Offline first",
-          "feature.offline.body": "Trabaja sin conexion y exporta apenas vuelvas a linea.",
-          "roles.title": "Roles diseñados para rodaje",
+          "hero.cta.open": "Abrir app",
+          "hero.proof.otp.label": "Acceso",
+          "hero.proof.otp.value": "OTP + Google",
+          "hero.proof.exports.label": "Entregables",
+          "hero.proof.exports.value": "PDF / CSV / PNG",
+          "hero.proof.offline.label": "Operacion",
+          "hero.proof.offline.value": "Offline-first",
+          "hero.proof.teams.label": "Colaboracion",
+          "hero.proof.teams.value": "Teams beta",
+          "hero.panel.tag": "Live beta scope",
+          "hero.panel.title": "Lo que ya puedes probar hoy",
+          "hero.panel.badge": "Web app",
+          "hero.panel.item1.title": "Continuidad tecnica por proyecto, escena y plano",
+          "hero.panel.item1.body": "Manten camara, contraste, color y claqueta conectados al mismo flujo.",
+          "hero.panel.item2.title": "Reportes listos para compartir",
+          "hero.panel.item2.body": "Exports profesionales con fallback web y cola offline cuando no hay conexion.",
+          "hero.panel.item3.title": "Roles reales para Produccion, AC y Gaffer",
+          "hero.panel.item3.body": "Cada perfil entra con herramientas, paneles y acciones alineadas a su trabajo.",
+          "stats.projects.value": "Proyecto > Escena > Plano",
+          "stats.projects.label": "Contexto operativo persistente para continuidad real.",
+          "stats.exports.value": "PDF / CSV / PNG",
+          "stats.exports.label": "Exports listos para entrega y revision en rodaje.",
+          "stats.offline.value": "Offline queue",
+          "stats.offline.label": "Sigue trabajando y deja que la cola sincronice luego.",
+          "stats.teams.value": "Teams beta",
+          "stats.teams.label": "Invita miembros y abre snapshots compartidos.",
+          "problems.eyebrow": "Por que existe",
+          "problems.title": "Menos hojas sueltas. Menos reprocesos. Mas claridad tecnica en set.",
+          "problems.body": "Gaffer Guild agrupa medicion, continuidad, reportes y coordinacion en un flujo operativo unico para rodaje real.",
+          "problems.one.title": "Continuidad tecnica sin friccion",
+          "problems.one.body": "Camara, contraste, color y claqueta viven sobre el mismo contexto de proyecto, escena y plano.",
+          "problems.two.title": "Entregables rapidos y consistentes",
+          "problems.two.body": "Exporta reportes utiles para produccion y camara sin reconstruir datos en hojas externas.",
+          "problems.three.title": "Flujos distintos para roles distintos",
+          "problems.three.body": "Produccion, AC y Gaffer ven paneles y acciones alineadas con su trabajo real, no una UI generica.",
+          "roles.eyebrow": "Disenado por funcion",
+          "roles.title": "Roles disenados para rodaje",
           "roles.body": "Cada perfil recibe paneles y flujos alineados con su trabajo diario.",
           "roles.producer.title": "Produccion",
           "roles.producer.body": "Control total de reportes, presupuesto y entregables.",
@@ -655,6 +135,7 @@
           "roles.ac.body": "Claqueta, camera report y datos precisos de toma.",
           "roles.gaffer.title": "Gaffer",
           "roles.gaffer.body": "Fotometria, contraste y control de exposicion en set.",
+          "rolemodules.eyebrow": "Vista del producto",
           "rolemodules.title": "Explora por rol",
           "rolemodules.body": "Cada rol tiene un flujo distinto. Explora los modulos clave para cada perfil.",
           "rolemodules.tab.production": "Produccion",
@@ -686,24 +167,11 @@
           "modules.budget.body": "Costos por dia con export CSV/PDF.",
           "modules.teams.title": "Teams",
           "modules.teams.body": "Invita miembros y comparte snapshots de proyecto.",
-          "plans.title": "Planes Season Pass (All-Access)",
-          "plans.body": "Todo incluido mientras la licencia este activa. Sin tiers por modulo.",
-          "plans.month.title": "Mensual",
-          "plans.month.body": "$6 / mes",
-          "plans.three.title": "3 meses",
-          "plans.three.body": "$17 / 3 meses",
-          "plans.six.title": "6 meses",
-          "plans.six.body": "$33 / 6 meses",
-          "plans.year.title": "Anual",
-          "plans.year.body": "$60 / año",
-          "plans.team.title": "Team 5 seats",
-          "plans.team.body": "$25 / mes",
-          "plans.studio.title": "Studio 15 seats",
-          "plans.studio.body": "$60 / mes",
           "form.badge": "Registro beta",
-          "form.body":
-            "Registra tu correo para acceder a la beta cerrada. Al enviar el formulario recibiras un codigo de verificacion para confirmar tu acceso. Tambien puedes verificar con Google.",
-          "form.note": "Nota: el acceso solo se habilita si tu correo está aprobado en la beta.",
+          "form.eyebrow": "Acceso para testers verificados",
+          "form.title": "Solicita acceso a la closed beta",
+          "form.body": "Registra tu correo para acceder a la beta cerrada. Al enviar el formulario recibiras un codigo de verificacion para confirmar tu acceso. Tambien puedes verificar con Google.",
+          "form.note": "Nota: el acceso solo se habilita si tu correo esta aprobado en la beta.",
           "form.email.label": "Email",
           "form.email.placeholder": "correo@dominio.com",
           "form.role.label": "Rol",
@@ -723,11 +191,31 @@
           "form.otp.placeholder": "123456",
           "form.otp.confirm": "Confirmar codigo",
           "form.otp.resend": "Reenviar codigo",
+          "form.bullet.one": "Accede a la web app hoy con OTP o Google.",
+          "form.bullet.two": "Tu beta queda activa por 30 dias en este navegador despues de verificar.",
+          "form.bullet.three": "Usaremos tu correo solo para gestionar acceso, soporte y seguimiento de la beta.",
           "form.footer": "Usaremos tu email solo para contactarte sobre la beta. No spam.",
+          "plans.eyebrow": "Modelo comercial",
+          "plans.title": "Planes Season Pass (All-Access)",
+          "plans.body": "Todo incluido mientras la licencia este activa. Sin tiers por modulo.",
+          "plans.month.title": "Mensual",
+          "plans.month.body": "$6 / mes",
+          "plans.three.title": "3 meses",
+          "plans.three.body": "$17 / 3 meses",
+          "plans.six.title": "6 meses",
+          "plans.six.body": "$33 / 6 meses",
+          "plans.year.title": "Anual",
+          "plans.year.body": "$60 / ano",
+          "plans.team.title": "Team 5 seats",
+          "plans.team.body": "$25 / mes",
+          "plans.studio.title": "Studio 15 seats",
+          "plans.studio.body": "$60 / mes",
           "footer.note": "Beta cerrada. Algunas funciones pueden cambiar durante pruebas.",
-          "status.beta.active": "Beta activa: te quedan {days} días.",
-          "status.beta.inactive":
-            "Beta no activa en este navegador. Solicita acceso más abajo.",
+          "footer.link.beta": "Solicitar acceso",
+          "footer.link.app": "Ir a la app",
+          "status.beta.active": "Beta activa: te quedan {days} dias.",
+          "status.beta.inactive": "Beta no activa en este navegador.",
+          "status.beta.inactive_link": "Solicita acceso",
           "status.email.invalid": "Ingresa un email valido.",
           "status.supabase.required": "Google login requiere Supabase configurado.",
           "status.signup.sent": "Registro enviado. Revisa tu correo para el codigo.",
@@ -749,22 +237,52 @@
           "status.otp.resending": "Reenviando codigo...",
           "status.otp.resend.ok": "Codigo reenviado. Revisa tu correo.",
           "status.resend.fail": "No se pudo reenviar. Intenta de nuevo.",
-          "status.cooldown": "Reenviar en {seconds}s",
+          "status.cooldown": "Reenviar en {seconds}s"
         },
         en: {
           "lang.label": "Language",
           "hero.badge": "Closed Beta",
+          "hero.eyebrow": "Built for real crews on real sets",
           "hero.title": "Your production kit, in your pocket.",
-          "hero.subtitle":
-            "Closed beta for real teams. Measure, plan, and export in minutes. Access only for verified testers (email OTP or Google). Access requires prior approval of your email in the beta.",
+          "hero.subtitle": "Closed beta for real teams. Measure, plan, and export in minutes. Access only for verified testers (email OTP or Google). Access requires prior approval of your email in the beta.",
           "hero.cta.request": "Request access",
           "hero.cta.google": "Continue with Google",
-          "feature.measure.title": "Real measurements",
-          "feature.measure.body": "Lux, T-stop, continuity, and reports ready to export.",
-          "feature.roles.title": "Clear roles",
-          "feature.roles.body": "Dashboards designed for Production, AC, and Gaffer.",
-          "feature.offline.title": "Offline first",
-          "feature.offline.body": "Work offline and export when you're back online.",
+          "hero.cta.open": "Open app",
+          "hero.proof.otp.label": "Access",
+          "hero.proof.otp.value": "OTP + Google",
+          "hero.proof.exports.label": "Deliverables",
+          "hero.proof.exports.value": "PDF / CSV / PNG",
+          "hero.proof.offline.label": "Operations",
+          "hero.proof.offline.value": "Offline-first",
+          "hero.proof.teams.label": "Collaboration",
+          "hero.proof.teams.value": "Teams beta",
+          "hero.panel.tag": "Live beta scope",
+          "hero.panel.title": "What you can already test today",
+          "hero.panel.badge": "Web app",
+          "hero.panel.item1.title": "Technical continuity by project, scene, and shot",
+          "hero.panel.item1.body": "Keep camera, contrast, color, and slate connected to the same operating flow.",
+          "hero.panel.item2.title": "Reports ready to share",
+          "hero.panel.item2.body": "Professional exports with web fallback and an offline queue when connectivity drops.",
+          "hero.panel.item3.title": "Real roles for Production, AC, and Gaffer",
+          "hero.panel.item3.body": "Each profile enters with tools, panels, and actions aligned to actual work.",
+          "stats.projects.value": "Project > Scene > Shot",
+          "stats.projects.label": "Persistent operating context for real continuity.",
+          "stats.exports.value": "PDF / CSV / PNG",
+          "stats.exports.label": "Exports ready for delivery and review during production.",
+          "stats.offline.value": "Offline queue",
+          "stats.offline.label": "Keep working and let the queue sync when connectivity returns.",
+          "stats.teams.value": "Teams beta",
+          "stats.teams.label": "Invite members and open shared snapshots.",
+          "problems.eyebrow": "Why it exists",
+          "problems.title": "Fewer loose notes. Fewer reworks. More technical clarity on set.",
+          "problems.body": "Gaffer Guild brings measurement, continuity, reports, and coordination into one operating flow for real production work.",
+          "problems.one.title": "Technical continuity without friction",
+          "problems.one.body": "Camera, contrast, color, and slate live on the same project, scene, and shot context.",
+          "problems.two.title": "Fast, consistent deliverables",
+          "problems.two.body": "Export useful reports for production and camera without rebuilding data in external sheets.",
+          "problems.three.title": "Different flows for different roles",
+          "problems.three.body": "Production, AC, and Gaffer get panels and actions aligned to real work instead of a generic UI.",
+          "roles.eyebrow": "Designed by function",
           "roles.title": "Roles designed for set",
           "roles.body": "Each profile gets panels and flows aligned with daily work.",
           "roles.producer.title": "Production",
@@ -773,6 +291,7 @@
           "roles.ac.body": "Slate, camera report, and precise shot data.",
           "roles.gaffer.title": "Gaffer",
           "roles.gaffer.body": "Light meters, contrast, and exposure control on set.",
+          "rolemodules.eyebrow": "Product view",
           "rolemodules.title": "Explore by role",
           "rolemodules.body": "Each role has its own flow. Explore the key modules for each profile.",
           "rolemodules.tab.production": "Production",
@@ -804,23 +323,10 @@
           "modules.budget.body": "Per-day costs with CSV/PDF export.",
           "modules.teams.title": "Teams",
           "modules.teams.body": "Invite members and share project snapshots.",
-          "plans.title": "Season Pass plans (All-Access)",
-          "plans.body": "Everything included while the license is active. No per-module tiers.",
-          "plans.month.title": "Monthly",
-          "plans.month.body": "$6 / month",
-          "plans.three.title": "3 months",
-          "plans.three.body": "$17 / 3 months",
-          "plans.six.title": "6 months",
-          "plans.six.body": "$33 / 6 months",
-          "plans.year.title": "Annual",
-          "plans.year.body": "$60 / year",
-          "plans.team.title": "Team 5 seats",
-          "plans.team.body": "$25 / month",
-          "plans.studio.title": "Studio 15 seats",
-          "plans.studio.body": "$60 / month",
           "form.badge": "Beta signup",
-          "form.body":
-            "Register your email to access the closed beta. After submitting the form, you'll receive a verification code to confirm access. You can also verify with Google.",
+          "form.eyebrow": "Access for verified testers",
+          "form.title": "Request access to the closed beta",
+          "form.body": "Register your email to access the closed beta. After submitting the form, you'll receive a verification code to confirm access. You can also verify with Google.",
           "form.note": "Note: access is enabled only if your email is approved for the beta.",
           "form.email.label": "Email",
           "form.email.placeholder": "email@domain.com",
@@ -841,11 +347,31 @@
           "form.otp.placeholder": "123456",
           "form.otp.confirm": "Confirm code",
           "form.otp.resend": "Resend code",
-          "form.footer": "We’ll use your email only to contact you about the beta. No spam.",
+          "form.bullet.one": "Access the web app today with OTP or Google.",
+          "form.bullet.two": "Your beta stays active for 30 days in this browser after verification.",
+          "form.bullet.three": "We'll use your email only to manage access, support, and beta follow-up.",
+          "form.footer": "We'll use your email only to contact you about the beta. No spam.",
+          "plans.eyebrow": "Commercial model",
+          "plans.title": "Season Pass plans (All-Access)",
+          "plans.body": "Everything included while the license is active. No per-module tiers.",
+          "plans.month.title": "Monthly",
+          "plans.month.body": "$6 / month",
+          "plans.three.title": "3 months",
+          "plans.three.body": "$17 / 3 months",
+          "plans.six.title": "6 months",
+          "plans.six.body": "$33 / 6 months",
+          "plans.year.title": "Annual",
+          "plans.year.body": "$60 / year",
+          "plans.team.title": "Team 5 seats",
+          "plans.team.body": "$25 / month",
+          "plans.studio.title": "Studio 15 seats",
+          "plans.studio.body": "$60 / month",
           "footer.note": "Closed beta. Some features may change during testing.",
+          "footer.link.beta": "Request access",
+          "footer.link.app": "Open app",
           "status.beta.active": "Beta active: {days} days left.",
-          "status.beta.inactive":
-            "Beta not active in this browser. Request access below.",
+          "status.beta.inactive": "Beta not active in this browser.",
+          "status.beta.inactive_link": "Request access",
           "status.email.invalid": "Enter a valid email.",
           "status.supabase.required": "Google login requires Supabase configured.",
           "status.signup.sent": "Signup sent. Check your email for the code.",
@@ -867,8 +393,8 @@
           "status.otp.resending": "Resending code...",
           "status.otp.resend.ok": "Code resent. Check your email.",
           "status.resend.fail": "Unable to resend. Try again.",
-          "status.cooldown": "Resend in {seconds}s",
-        },
+          "status.cooldown": "Resend in {seconds}s"
+        }
       };
       const langButtons = Array.from(document.querySelectorAll(".lang-btn"));
       const getLanguage = () => window.localStorage.getItem("gg_lang") || "es";
@@ -932,9 +458,7 @@
         try {
           const raw = window.localStorage.getItem(storageKey);
           const expiresAt = raw ? Number(raw) : 0;
-          if (!expiresAt || Number.isNaN(expiresAt)) {
-            return false;
-          }
+          if (!expiresAt || Number.isNaN(expiresAt)) return false;
           if (Date.now() > expiresAt) {
             window.localStorage.removeItem(storageKey);
             return false;
@@ -964,10 +488,7 @@
             betaRemainingHeroEl.textContent = CURRENT_STRINGS["status.beta.active"].replace("{days}", daysLeft);
           } else {
             betaRemainingHeroEl.classList.add("status-chip--inactive");
-            betaRemainingHeroEl.innerHTML = `${CURRENT_STRINGS["status.beta.inactive"].replace(
-              "Solicita acceso más abajo.",
-              `<a href="#signup">${CURRENT_STRINGS["hero.cta.request"]}</a>`,
-            )}`;
+            betaRemainingHeroEl.innerHTML = `${CURRENT_STRINGS["status.beta.inactive"]} <a href="#signup">${CURRENT_STRINGS["status.beta.inactive_link"]}</a>`;
           }
           betaRemainingHeroEl.style.display = "block";
         }
@@ -991,7 +512,6 @@
           otpBlock.style.display = "block";
         }
       } catch {}
-
       submitBtn.addEventListener("click", async (event) => {
         event.preventDefault();
         const email = document.getElementById("email").value.trim();
@@ -1015,15 +535,9 @@
               apikey: SUPABASE_ANON_KEY,
               Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
               "Content-Type": "application/json",
-              Prefer: "return=minimal",
+              Prefer: "return=minimal"
             },
-            body: JSON.stringify({
-              email,
-              role,
-              country,
-              platform,
-              created_at: new Date().toISOString(),
-            }),
+            body: JSON.stringify({ email, role, country, platform, created_at: new Date().toISOString() })
           });
           if (response.status === 401 || response.status === 403) {
             setStatus(CURRENT_STRINGS["status.signup.permission"], true);
@@ -1034,25 +548,16 @@
             console.warn("beta signup failed", response.status, text);
             throw new Error("request_failed");
           }
-          if (response.status === 409) {
-            setStatus(CURRENT_STRINGS["status.signup.exists"], false);
-          } else {
-            setStatus(CURRENT_STRINGS["status.signup.ok"], false);
-          }
-          try {
-            window.localStorage.setItem("gg_beta_email", email);
-          } catch {}
+          setStatus(CURRENT_STRINGS[response.status === 409 ? "status.signup.exists" : "status.signup.ok"], false);
+          try { window.localStorage.setItem("gg_beta_email", email); } catch {}
           const otpResp = await fetch(`${SUPABASE_URL}/auth/v1/otp`, {
             method: "POST",
             headers: {
               apikey: SUPABASE_ANON_KEY,
               Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-              "Content-Type": "application/json",
+              "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-              email,
-              options: { shouldCreateUser: true },
-            }),
+            body: JSON.stringify({ email, options: { shouldCreateUser: true } })
           });
           if (otpResp.status === 429) {
             setStatus(CURRENT_STRINGS["status.otp.rate"], true);
@@ -1066,13 +571,12 @@
           otpBlock.style.display = "block";
           setStatus(CURRENT_STRINGS["status.otp.sent"], false);
           setCooldown(30);
-        } catch (err) {
+        } catch {
           setStatus(CURRENT_STRINGS["status.signup.error"], true);
         } finally {
           submitBtn.disabled = false;
         }
       });
-
       const handleGoogleLogin = (event) => {
         event.preventDefault();
         if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL.includes("SUPABASE")) {
@@ -1083,14 +587,8 @@
         const oauthUrl = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(redirectTo)}`;
         window.location.href = oauthUrl;
       };
-
-      if (googleBtn) {
-        googleBtn.addEventListener("click", handleGoogleLogin);
-      }
-      if (heroGoogleBtn) {
-        heroGoogleBtn.addEventListener("click", handleGoogleLogin);
-      }
-
+      if (googleBtn) googleBtn.addEventListener("click", handleGoogleLogin);
+      if (heroGoogleBtn) heroGoogleBtn.addEventListener("click", handleGoogleLogin);
       verifyBtn.addEventListener("click", async (event) => {
         event.preventDefault();
         const email = document.getElementById("email").value.trim();
@@ -1108,9 +606,9 @@
               headers: {
                 apikey: SUPABASE_ANON_KEY,
                 Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-                "Content-Type": "application/json",
+                "Content-Type": "application/json"
               },
-              body: JSON.stringify({ email, token: code, type }),
+              body: JSON.stringify({ email, token: code, type })
             });
             const payload = await resp.json().catch(() => null);
             return { ok: resp.ok, status: resp.status, payload };
@@ -1119,10 +617,7 @@
           const result = attempt.ok ? attempt : await verifyWithType("email");
           const finalResult = result.ok ? result : await verifyWithType("magiclink");
           if (!finalResult.ok) {
-            const errorCode =
-              (finalResult.payload &&
-                (finalResult.payload.error_code || finalResult.payload.code || finalResult.payload.error)) ||
-              "";
+            const errorCode = (finalResult.payload && (finalResult.payload.error_code || finalResult.payload.code || finalResult.payload.error)) || "";
             if (finalResult.status === 429) {
               setStatus(CURRENT_STRINGS["status.verify.too_many"], true);
             } else if (/expired|otp_expired/i.test(String(errorCode))) {
@@ -1137,17 +632,10 @@
           const payload = finalResult.payload;
           const accessToken = payload && payload.access_token;
           if (accessToken) {
-            const check = await fetch(
-              `${SUPABASE_URL}/rest/v1/beta_signups?email=eq.${encodeURIComponent(email)}&select=id&limit=1`,
-              {
-                method: "GET",
-                headers: {
-                  apikey: SUPABASE_ANON_KEY,
-                  Authorization: `Bearer ${accessToken}`,
-                  Accept: "application/json",
-                },
-              },
-            );
+            const check = await fetch(`${SUPABASE_URL}/rest/v1/beta_signups?email=eq.${encodeURIComponent(email)}&select=id&limit=1`, {
+              method: "GET",
+              headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${accessToken}`, Accept: "application/json" }
+            });
             const data = await check.json().catch(() => []);
             if (!Array.isArray(data) || data.length === 0) {
               setStatus(CURRENT_STRINGS["status.beta.denied"], true);
@@ -1156,13 +644,12 @@
           }
           grantAccess();
           landingToApp();
-        } catch (err) {
+        } catch {
           setStatus(CURRENT_STRINGS["status.verify.fail"], true);
         } finally {
           verifyBtn.disabled = false;
         }
       });
-
       resendBtn.addEventListener("click", async (event) => {
         event.preventDefault();
         const email = document.getElementById("email").value.trim();
@@ -1170,9 +657,7 @@
           setStatus(CURRENT_STRINGS["status.email.invalid"], true);
           return;
         }
-        if (Date.now() < otpCooldownUntil) {
-          return;
-        }
+        if (Date.now() < otpCooldownUntil) return;
         resendBtn.disabled = true;
         setStatus(CURRENT_STRINGS["status.otp.resending"], false);
         try {
@@ -1181,12 +666,9 @@
             headers: {
               apikey: SUPABASE_ANON_KEY,
               Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
-              "Content-Type": "application/json",
+              "Content-Type": "application/json"
             },
-            body: JSON.stringify({
-              email,
-              options: { shouldCreateUser: true },
-            }),
+            body: JSON.stringify({ email, options: { shouldCreateUser: true } })
           });
           if (otpResp.status === 429) {
             setStatus(CURRENT_STRINGS["status.otp.rate"], true);
