@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta name="x-release-id" content="2026-03-05T20:57:44.070Z">
+    <meta name="x-release-id" content="2026-03-05T21:06:53.852Z">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Gaffer Guild - Closed Beta</title>
@@ -37,13 +37,14 @@
         overflow-x: hidden;
       }
       main {
-        max-width: 1180px;
+        max-width: 1240px;
         margin: 0 auto;
         padding: 72px 24px 96px;
         display: grid;
         gap: 34px;
-        width: min(1180px, calc(100% - 28px));
+        width: min(1240px, calc(100% - 40px));
       }
+      img { max-width: 100%; }
       img { max-width: 100%; }
       h1 { margin: 0; font-size: clamp(34px, 4.6vw, 58px); line-height: 0.98; letter-spacing: -1px; max-width: 10ch; }
       h2 { margin: 0; font-size: clamp(25px, 3vw, 36px); line-height: 1.08; letter-spacing: -0.6px; }
@@ -89,9 +90,19 @@
           radial-gradient(circle at left center, rgba(245, 158, 11, 0.15), transparent 28%),
           linear-gradient(145deg, rgba(13, 26, 48, 0.98), rgba(5, 10, 20, 0.98));
       }
-      .hero-grid, .signup-grid { display: grid; gap: 26px; grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr); }
+      .hero-grid, .signup-grid { display: grid; gap: 30px; grid-template-columns: minmax(0, 1.08fr) minmax(340px, .92fr); }
       .hero-grid > *, .signup-grid > *, .proof-strip > *, .problem-grid > *, .module-grid > * { min-width: 0; }
       .hero-copy, .section-head, .signup-copy { display: grid; gap: 18px; align-content: start; min-width: 0; }
+      .hero-copy--editorial { max-width: 640px; }
+      .hero-copy--editorial .badge,
+      .hero-copy--editorial .eyebrow,
+      .hero-copy--editorial .logo { margin-inline: auto; }
+      .hero-copy--editorial h1,
+      .hero-copy--editorial .hero-lead,
+      .hero-copy--editorial .cta-row { margin-inline: auto; text-align: center; justify-content: center; }
+      .section-head--centered { justify-items: center; text-align: center; }
+      .section-head--centered p,
+      .section-head--centered h2 { margin-inline: auto; }
       .hero-lead, .section-head p { max-width: 62ch; color: #d7e2ff; font-size: 16px; }
       .logo { max-width: 280px; }
       .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -112,7 +123,7 @@
       }
       .hero-proof-label { color: var(--muted-2); font-size: 12px; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
       .hero-proof-value, .proof-card strong, .price-card strong { color: var(--text); font-size: 24px; line-height: 1; overflow-wrap: anywhere; }
-      .hero-panel { display: grid; gap: 16px; align-content: start; background: var(--panel-strong); border: 1px solid var(--outline); border-radius: 24px; padding: 18px; }
+      .hero-panel { display: grid; gap: 16px; align-content: start; background: linear-gradient(180deg, rgba(9, 18, 33, 0.98), rgba(5, 10, 20, 0.98)); border: 1px solid var(--outline); border-radius: 24px; padding: 18px; }
       .hero-panel-top { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
       .hero-panel-tag { color: var(--muted-2); font-size: 12px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; }
       .hero-panel-kicker { color: var(--text); font-size: 15px; font-weight: 700; text-wrap: balance; }
@@ -138,7 +149,8 @@
       .section-head p { margin: 0; max-width: 68ch; text-wrap: pretty; }
       .lede-inline { max-width: 68ch; white-space: normal; overflow-wrap: anywhere; }
       .section-surface, .roles, .modules, .pricing, .signup { padding: 30px; }
-      .problem-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .section-surface, .modules, .pricing, .signup { background: linear-gradient(180deg, rgba(8, 19, 36, 0.94), rgba(6, 13, 24, 0.96)); }
+      .problem-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); align-items: stretch; }
       .problem-index {
         width: 34px; height: 34px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center;
         background: rgba(56, 189, 248, 0.14); border: 1px solid rgba(56, 189, 248, 0.24); color: #bcecff; font-size: 12px; font-weight: 800;
@@ -181,7 +193,8 @@
       .modules-shell { display: grid; gap: 22px; }
       .role-panel { display: none; }
       .role-panel.active { display: block; }
-      .module-card { background: rgba(9, 18, 33, 0.96); }
+      .problem-card { background: linear-gradient(180deg, rgba(8, 18, 32, 0.96), rgba(5, 10, 20, 0.98)); }
+      .module-card { background: linear-gradient(180deg, rgba(9, 18, 33, 0.96), rgba(6, 12, 23, 0.98)); }
       .module-icon { width: 100%; border-radius: 14px; border: 1px solid rgba(148, 163, 255, 0.12); display: block; }
       .signup-list { display: grid; gap: 12px; }
       .signup-list-item { display: flex; gap: 10px; align-items: flex-start; color: #d7e2ff; }
@@ -204,6 +217,7 @@
       .status { font-size: 13px; color: #a5b4fc; }
       .status.error { color: #fca5a5; }
       .pricing-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: stretch; }
+      .price-card { background: linear-gradient(180deg, rgba(9, 18, 33, 0.96), rgba(6, 12, 23, 0.98)); }
       .price-card.featured { border-color: rgba(245, 158, 11, 0.28); background: linear-gradient(180deg, rgba(15, 31, 58, 0.94), rgba(7, 14, 26, 0.94)); }
       .footer-bar { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; padding-top: 18px; border-top: 1px solid rgba(148, 163, 255, 0.12); }
       .footer-links { display: flex; flex-wrap: wrap; gap: 10px; }
@@ -221,9 +235,16 @@
         .hero-preview { aspect-ratio: 1 / 0.9; max-height: 360px; }
         .section-head h2 { max-width: 14ch; }
         .section-head p, .lede-inline { max-width: 100%; }
+        .hero-copy--editorial .badge,
+        .hero-copy--editorial .eyebrow,
+        .hero-copy--editorial .logo,
+        .hero-copy--editorial h1,
+        .hero-copy--editorial .hero-lead,
+        .hero-copy--editorial .cta-row { margin-inline: 0; text-align: left; justify-content: flex-start; }
+        .section-head--centered { justify-items: start; text-align: left; }
       }
       @media (max-width: 560px) {
-        main { width: min(1180px, calc(100% - 18px)); padding: 40px 9px 64px; gap: 18px; }
+        main { width: min(1240px, calc(100% - 18px)); padding: 40px 9px 64px; gap: 18px; }
         h1 { max-width: none; font-size: clamp(32px, 10vw, 46px); }
         .pricing-grid { grid-template-columns: 1fr; }
         .hero-grid, .signup-grid { gap: 18px; }
@@ -250,7 +271,7 @@
       <section class="hero">
         <p id="beta-remaining-hero" class="status status-chip"></p>
         <div class="hero-grid">
-          <div class="hero-copy">
+          <div class="hero-copy hero-copy--editorial">
             <span class="badge" data-i18n="hero.badge">Closed Beta</span>
             <span class="eyebrow" data-i18n="hero.eyebrow">Herramientas reales para set real</span>
             <img class="logo" src="assets/branding/gg-logo-title.png" alt="Gaffer Guild" />
@@ -285,7 +306,7 @@
         <div class="proof-card"><strong data-i18n="stats.teams.value">Teams beta</strong><span data-i18n="stats.teams.label">Invita miembros y abre snapshots compartidos.</span></div>
       </section>
       <section class="section-surface">
-        <div class="section-head"><span class="eyebrow" data-i18n="problems.eyebrow">Por que existe</span><h2 data-i18n="problems.title">Menos caos en set. Mas velocidad para decidir, reportar y avanzar.</h2><p class="lede-inline" data-i18n="problems.body">Gaffer Guild une medicion, continuidad, reportes y coordinacion en un flujo operativo unico para que el equipo trabaje con menos errores y mas confianza.</p></div>
+        <div class="section-head section-head--centered"><span class="eyebrow" data-i18n="problems.eyebrow">Por que existe</span><h2 data-i18n="problems.title">Menos caos en set. Mas velocidad para decidir, reportar y avanzar.</h2><p class="lede-inline" data-i18n="problems.body">Gaffer Guild une medicion, continuidad, reportes y coordinacion en un flujo operativo unico para que el equipo trabaje con menos errores y mas confianza.</p></div>
         <div class="problem-grid">
           <article class="problem-card"><span class="problem-index">01</span><h3 data-i18n="problems.one.title">Todo conectado en un mismo contexto</h3><p data-i18n="problems.one.body">Proyecto, escena y plano mantienen camara, contraste, color y claqueta sincronizados desde la primera toma.</p></article>
           <article class="problem-card"><span class="problem-index">02</span><h3 data-i18n="problems.two.title">Reportes listos cuando el set los pide</h3><p data-i18n="problems.two.body">Genera entregables claros para produccion y camara sin rehacer datos en hojas, chats o notas sueltas.</p></article>
@@ -312,7 +333,7 @@
         </div>
       </section>
       <section class="pricing">
-        <div class="section-head"><span class="eyebrow" data-i18n="plans.eyebrow">Modelo comercial</span><h2 data-i18n="plans.title">Planes Season Pass (All-Access)</h2><p data-i18n="plans.body">Todo incluido mientras la licencia este activa. Sin tiers por modulo.</p></div>
+        <div class="section-head section-head--centered"><span class="eyebrow" data-i18n="plans.eyebrow">Modelo comercial</span><h2 data-i18n="plans.title">Planes Season Pass (All-Access)</h2><p data-i18n="plans.body">Todo incluido mientras la licencia este activa. Sin tiers por modulo.</p></div>
         <div class="pricing-grid"><div class="price-card"><h3 data-i18n="plans.month.title">Mensual</h3><strong data-i18n="plans.month.body">$6 / mes</strong></div><div class="price-card"><h3 data-i18n="plans.three.title">3 meses</h3><strong data-i18n="plans.three.body">$17 / 3 meses</strong></div><div class="price-card featured"><h3 data-i18n="plans.six.title">6 meses</h3><strong data-i18n="plans.six.body">$33 / 6 meses</strong></div><div class="price-card"><h3 data-i18n="plans.year.title">Anual</h3><strong data-i18n="plans.year.body">$60 / ano</strong></div><div class="price-card"><h3 data-i18n="plans.team.title">Team 5 seats</h3><strong data-i18n="plans.team.body">$25 / mes</strong></div><div class="price-card"><h3 data-i18n="plans.studio.title">Studio 15 seats</h3><strong data-i18n="plans.studio.body">$60 / mes</strong></div></div>
       </section>
       <section class="footer-bar"><div><span class="footer-note" data-i18n="footer.note">Beta cerrada. Algunas funciones pueden cambiar durante pruebas.</span><div id="release-stamp" class="release-stamp">Release local</div></div><div class="footer-links"><a href="#signup" data-i18n="footer.link.beta">Solicitar acceso</a></div></section>
