@@ -218,6 +218,39 @@
         gap: 16px;
         grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       }
+      .role-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      .role-tab {
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 255, 0.4);
+        background: rgba(15, 23, 42, 0.7);
+        color: #dbeafe;
+        padding: 8px 16px;
+        font-size: 12px;
+        letter-spacing: 0.6px;
+        cursor: pointer;
+        font-weight: 700;
+        transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+      }
+      .role-tab:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 20px rgba(56, 189, 248, 0.15);
+      }
+      .role-tab.active {
+        border-color: var(--accent-2);
+        color: #0b0f1f;
+        background: var(--accent-2);
+        box-shadow: 0 10px 24px rgba(249, 115, 22, 0.35);
+      }
+      .role-panel {
+        display: none;
+      }
+      .role-panel.active {
+        display: block;
+      }
       .module-card {
         background: rgba(12, 18, 37, 0.92);
         border-radius: 18px;
@@ -390,80 +423,110 @@
       </section>
 
       <section class="section">
-        <h2 data-i18n="modules.title">Modulos clave en set</h2>
-        <p data-i18n="modules.body">
-          Todo el flujo en un solo lugar. Cada modulo resuelve una necesidad real de rodaje.
+        <h2 data-i18n="rolemodules.title">Explora por rol</h2>
+        <p data-i18n="rolemodules.body">
+          Cada rol tiene un flujo distinto. Explora los módulos clave para cada perfil.
         </p>
-        <div class="module-grid">
-          <div class="module-card">
-            <img class="module-icon" src="assets/modules/config-camera.png" alt="Configuracion de camara" />
-            <h3 data-i18n="modules.camera.title">Configuracion de camara</h3>
-            <p data-i18n="modules.camera.body">ISO, T-stop, FPS y ND con coherencia tecnica.</p>
+        <div class="role-tabs" role="tablist" aria-label="Roles">
+          <button class="role-tab active" data-role-target="production" data-i18n="rolemodules.tab.production">Produccion</button>
+          <button class="role-tab" data-role-target="ac" data-i18n="rolemodules.tab.ac">AC / Asistente de camara</button>
+          <button class="role-tab" data-role-target="gaffer" data-i18n="rolemodules.tab.gaffer">Gaffer</button>
+        </div>
+        <div class="role-panel active" data-role-panel="production">
+          <div class="module-grid">
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/call-sheet.png" alt="Call sheet" />
+              <h3 data-i18n="modules.callsheet.title">Call Sheet</h3>
+              <p data-i18n="modules.callsheet.body">Plan del dia, seguridad y export PDF.</p>
+            </div>
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/presupuesto.png" alt="Presupuesto" />
+              <h3 data-i18n="modules.budget.title">Presupuesto</h3>
+              <p data-i18n="modules.budget.body">Costos por dia con export CSV/PDF.</p>
+            </div>
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/inventario.png" alt="Inventario" />
+              <h3 data-i18n="modules.inventory.title">Inventario</h3>
+              <p data-i18n="modules.inventory.body">Herramientas y arsenal con export PDF.</p>
+            </div>
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/scouting.png" alt="Scouting" />
+              <h3 data-i18n="modules.scouting.title">Scouting</h3>
+              <p data-i18n="modules.scouting.body">Registros por locacion con lux y T-stop.</p>
+            </div>
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/teams.png" alt="Teams" />
+              <h3 data-i18n="modules.teams.title">Teams</h3>
+              <p data-i18n="modules.teams.body">Invita miembros y comparte snapshots de proyecto.</p>
+            </div>
           </div>
-          <div class="module-card">
-            <img class="module-icon" src="assets/modules/campo-vision.png" alt="Campo de vision" />
-            <h3 data-i18n="modules.fov.title">Campo de vision</h3>
-            <p data-i18n="modules.fov.body">FoV confiable para decidir encuadres y lentes.</p>
+        </div>
+        <div class="role-panel" data-role-panel="ac">
+          <div class="module-grid">
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/config-camera.png" alt="Configuracion de camara" />
+              <h3 data-i18n="modules.camera.title">Configuracion de camara</h3>
+              <p data-i18n="modules.camera.body">ISO, T-stop, FPS y ND con coherencia tecnica.</p>
+            </div>
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/campo-vision.png" alt="Campo de vision" />
+              <h3 data-i18n="modules.fov.title">Campo de vision</h3>
+              <p data-i18n="modules.fov.body">FoV confiable para decidir encuadres y lentes.</p>
+            </div>
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/relacion-contraste.png" alt="Relacion de contraste" />
+              <h3 data-i18n="modules.contrast.title">Relacion de contraste</h3>
+              <p data-i18n="modules.contrast.body">Key/fill en stops para decisiones objetivas.</p>
+            </div>
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/contraste-cromatico.png" alt="Contraste cromatico" />
+              <h3 data-i18n="modules.chromatic.title">Contraste cromatico</h3>
+              <p data-i18n="modules.chromatic.body">Balance de CCT y tinte entre key/fill.</p>
+            </div>
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/claqueta.png" alt="Claqueta" />
+              <h3 data-i18n="modules.slate.title">Claqueta</h3>
+              <p data-i18n="modules.slate.body">Metadatos de toma listos para continuidad.</p>
+            </div>
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/camera-report.png" alt="Camera report" />
+              <h3 data-i18n="modules.camerareport.title">Camera Report</h3>
+              <p data-i18n="modules.camerareport.body">Export profesional PDF/CSV sin duplicar data.</p>
+            </div>
           </div>
-          <div class="module-card">
-            <img class="module-icon" src="assets/modules/relacion-contraste.png" alt="Relacion de contraste" />
-            <h3 data-i18n="modules.contrast.title">Relacion de contraste</h3>
-            <p data-i18n="modules.contrast.body">Key/fill en stops para decisiones objetivas.</p>
-          </div>
-          <div class="module-card">
-            <img class="module-icon" src="assets/modules/aparatos-luz.png" alt="Aparatos de luz" />
-            <h3 data-i18n="modules.fixtures.title">Aparatos de luz</h3>
-            <p data-i18n="modules.fixtures.body">Guia rapida de fixtures y caida de luz.</p>
-          </div>
-          <div class="module-card">
-            <img class="module-icon" src="assets/modules/false-color.png" alt="False color" />
-            <h3 data-i18n="modules.falsecolor.title">False Color</h3>
-            <p data-i18n="modules.falsecolor.body">IRE chart por preset de camara para exponer rapido.</p>
-          </div>
-          <div class="module-card">
-            <img class="module-icon" src="assets/modules/contraste-cromatico.png" alt="Contraste cromatico" />
-            <h3 data-i18n="modules.chromatic.title">Contraste cromatico</h3>
-            <p data-i18n="modules.chromatic.body">Balance de CCT y tinte entre key/fill.</p>
-          </div>
-          <div class="module-card">
-            <img class="module-icon" src="assets/modules/scouting.png" alt="Scouting" />
-            <h3 data-i18n="modules.scouting.title">Scouting</h3>
-            <p data-i18n="modules.scouting.body">Registros por locacion con lux y T-stop.</p>
-          </div>
-          <div class="module-card">
-            <img class="module-icon" src="assets/modules/claqueta.png" alt="Claqueta" />
-            <h3 data-i18n="modules.slate.title">Claqueta</h3>
-            <p data-i18n="modules.slate.body">Metadatos de toma listos para continuidad.</p>
-          </div>
-          <div class="module-card">
-            <img class="module-icon" src="assets/modules/camera-report.png" alt="Camera report" />
-            <h3 data-i18n="modules.camerareport.title">Camera Report</h3>
-            <p data-i18n="modules.camerareport.body">Export profesional PDF/CSV sin duplicar data.</p>
-          </div>
-          <div class="module-card">
-            <img class="module-icon" src="assets/modules/call-sheet.png" alt="Call sheet" />
-            <h3 data-i18n="modules.callsheet.title">Call Sheet</h3>
-            <p data-i18n="modules.callsheet.body">Plan del dia, seguridad y export PDF.</p>
-          </div>
-          <div class="module-card">
-            <img class="module-icon" src="assets/modules/inventario.png" alt="Inventario" />
-            <h3 data-i18n="modules.inventory.title">Inventario</h3>
-            <p data-i18n="modules.inventory.body">Herramientas y arsenal con export PDF.</p>
-          </div>
-          <div class="module-card">
-            <img class="module-icon" src="assets/modules/presupuesto.png" alt="Presupuesto" />
-            <h3 data-i18n="modules.budget.title">Presupuesto</h3>
-            <p data-i18n="modules.budget.body">Costos por dia con export CSV/PDF.</p>
-          </div>
-          <div class="module-card">
-            <img class="module-icon" src="assets/modules/reporte-proyecto.png" alt="Reporte del proyecto" />
-            <h3 data-i18n="modules.report.title">Reporte del proyecto</h3>
-            <p data-i18n="modules.report.body">Resumen final con trazabilidad completa.</p>
-          </div>
-          <div class="module-card">
-            <img class="module-icon" src="assets/modules/teams.png" alt="Teams" />
-            <h3 data-i18n="modules.teams.title">Teams</h3>
-            <p data-i18n="modules.teams.body">Invita miembros y comparte snapshots de proyecto.</p>
+        </div>
+        <div class="role-panel" data-role-panel="gaffer">
+          <div class="module-grid">
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/config-camera.png" alt="Configuracion de camara" />
+              <h3 data-i18n="modules.camera.title">Configuracion de camara</h3>
+              <p data-i18n="modules.camera.body">ISO, T-stop, FPS y ND con coherencia tecnica.</p>
+            </div>
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/relacion-contraste.png" alt="Relacion de contraste" />
+              <h3 data-i18n="modules.contrast.title">Relacion de contraste</h3>
+              <p data-i18n="modules.contrast.body">Key/fill en stops para decisiones objetivas.</p>
+            </div>
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/contraste-cromatico.png" alt="Contraste cromatico" />
+              <h3 data-i18n="modules.chromatic.title">Contraste cromatico</h3>
+              <p data-i18n="modules.chromatic.body">Balance de CCT y tinte entre key/fill.</p>
+            </div>
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/false-color.png" alt="False color" />
+              <h3 data-i18n="modules.falsecolor.title">False Color</h3>
+              <p data-i18n="modules.falsecolor.body">IRE chart por preset de camara para exponer rapido.</p>
+            </div>
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/campo-vision.png" alt="Campo de vision" />
+              <h3 data-i18n="modules.fov.title">Campo de vision</h3>
+              <p data-i18n="modules.fov.body">FoV confiable para decidir encuadres y lentes.</p>
+            </div>
+            <div class="module-card">
+              <img class="module-icon" src="assets/modules/aparatos-luz.png" alt="Aparatos de luz" />
+              <h3 data-i18n="modules.fixtures.title">Aparatos de luz</h3>
+              <p data-i18n="modules.fixtures.body">Guia rapida de fixtures y caida de luz.</p>
+            </div>
           </div>
         </div>
       </section>
@@ -590,8 +653,11 @@
           "roles.ac.body": "Claqueta, camera report y datos precisos de toma.",
           "roles.gaffer.title": "Gaffer",
           "roles.gaffer.body": "Fotometria, contraste y control de exposicion en set.",
-          "modules.title": "Modulos clave en set",
-          "modules.body": "Todo el flujo en un solo lugar. Cada modulo resuelve una necesidad real de rodaje.",
+          "rolemodules.title": "Explora por rol",
+          "rolemodules.body": "Cada rol tiene un flujo distinto. Explora los modulos clave para cada perfil.",
+          "rolemodules.tab.production": "Produccion",
+          "rolemodules.tab.ac": "AC / Asistente de camara",
+          "rolemodules.tab.gaffer": "Gaffer",
           "modules.camera.title": "Configuracion de camara",
           "modules.camera.body": "ISO, T-stop, FPS y ND con coherencia tecnica.",
           "modules.fov.title": "Campo de vision",
@@ -616,8 +682,6 @@
           "modules.inventory.body": "Herramientas y arsenal con export PDF.",
           "modules.budget.title": "Presupuesto",
           "modules.budget.body": "Costos por dia con export CSV/PDF.",
-          "modules.report.title": "Reporte del proyecto",
-          "modules.report.body": "Resumen final con trazabilidad completa.",
           "modules.teams.title": "Teams",
           "modules.teams.body": "Invita miembros y comparte snapshots de proyecto.",
           "plans.title": "Planes Season Pass (All-Access)",
@@ -707,8 +771,11 @@
           "roles.ac.body": "Slate, camera report, and precise shot data.",
           "roles.gaffer.title": "Gaffer",
           "roles.gaffer.body": "Light meters, contrast, and exposure control on set.",
-          "modules.title": "Key modules on set",
-          "modules.body": "Everything in one flow. Each module solves a real on-set need.",
+          "rolemodules.title": "Explore by role",
+          "rolemodules.body": "Each role has its own flow. Explore the key modules for each profile.",
+          "rolemodules.tab.production": "Production",
+          "rolemodules.tab.ac": "AC / Camera assistant",
+          "rolemodules.tab.gaffer": "Gaffer",
           "modules.camera.title": "Camera configuration",
           "modules.camera.body": "ISO, T-stop, FPS, and ND with technical consistency.",
           "modules.fov.title": "Field of view",
@@ -733,8 +800,6 @@
           "modules.inventory.body": "Tools and kit with PDF export.",
           "modules.budget.title": "Budget",
           "modules.budget.body": "Per-day costs with CSV/PDF export.",
-          "modules.report.title": "Project report",
-          "modules.report.body": "Final summary with full traceability.",
           "modules.teams.title": "Teams",
           "modules.teams.body": "Invite members and share project snapshots.",
           "plans.title": "Season Pass plans (All-Access)",
@@ -1141,6 +1206,19 @@
           CURRENT_STRINGS = setLanguage(btn.dataset.lang);
           renderDaysLeft();
         });
+      });
+      const roleTabs = Array.from(document.querySelectorAll(".role-tab"));
+      const rolePanels = Array.from(document.querySelectorAll(".role-panel"));
+      const setRolePanel = (role) => {
+        roleTabs.forEach((btn) => {
+          btn.classList.toggle("active", btn.dataset.roleTarget === role);
+        });
+        rolePanels.forEach((panel) => {
+          panel.classList.toggle("active", panel.dataset.rolePanel === role);
+        });
+      };
+      roleTabs.forEach((btn) => {
+        btn.addEventListener("click", () => setRolePanel(btn.dataset.roleTarget));
       });
     </script>
   </body>
