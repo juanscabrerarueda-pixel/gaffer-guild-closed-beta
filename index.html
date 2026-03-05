@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta name="x-release-id" content="2026-03-05T19:35:56.134Z">
+    <meta name="x-release-id" content="2026-03-05T19:39:27.061Z">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Gaffer Guild - Closed Beta</title>
@@ -42,7 +42,7 @@
         display: grid;
         gap: 34px;
       }
-      h1 { margin: 0; font-size: clamp(36px, 5vw, 62px); line-height: 1; letter-spacing: -1.2px; max-width: 11ch; }
+      h1 { margin: 0; font-size: clamp(34px, 4.6vw, 58px); line-height: 0.98; letter-spacing: -1px; max-width: 10ch; }
       h2 { margin: 0; font-size: clamp(25px, 3vw, 36px); line-height: 1.08; letter-spacing: -0.6px; }
       h3 { margin: 0; font-size: 18px; }
       p { margin: 0; color: var(--muted); line-height: 1.65; }
@@ -87,7 +87,7 @@
           linear-gradient(145deg, rgba(13, 26, 48, 0.98), rgba(5, 10, 20, 0.98));
       }
       .hero-grid, .signup-grid { display: grid; gap: 26px; grid-template-columns: minmax(0, 1.1fr) minmax(320px, .9fr); }
-      .hero-copy, .section-head, .signup-copy { display: grid; gap: 16px; align-content: start; }
+      .hero-copy, .section-head, .signup-copy { display: grid; gap: 18px; align-content: start; }
       .hero-lead, .section-head p { max-width: 62ch; color: #d7e2ff; font-size: 16px; }
       .logo { max-width: 280px; }
       .cta-row { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -110,12 +110,25 @@
       .hero-panel-top { display: flex; justify-content: space-between; gap: 12px; align-items: center; }
       .hero-panel-tag { color: var(--muted-2); font-size: 12px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase; }
       .hero-panel-kicker { color: var(--text); font-size: 15px; font-weight: 700; }
-      .hero-preview { border-radius: 22px; border: 1px solid var(--outline); overflow: hidden; background: #08111f; }
-      .hero-panel-list { display: grid; gap: 10px; }
-      .hero-panel-item { display: grid; gap: 4px; padding: 12px 14px; border-radius: 16px; background: rgba(10, 17, 29, 0.72); border: 1px solid rgba(148, 163, 255, 0.15); }
+      .hero-preview {
+        border-radius: 22px;
+        border: 1px solid var(--outline);
+        overflow: hidden;
+        background: #08111f;
+        aspect-ratio: 1 / 0.74;
+        max-height: 420px;
+      }
+      .hero-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 28%;
+      }
+      .hero-panel-list { display: grid; gap: 12px; }
+      .hero-panel-item { display: grid; gap: 6px; padding: 12px 14px; border-radius: 16px; background: rgba(10, 17, 29, 0.72); border: 1px solid rgba(148, 163, 255, 0.15); }
       .hero-panel-item strong { font-size: 15px; }
       .hero-panel-item span, .proof-card span, .problem-card p, .role-card p, .module-card p, .price-card p { color: var(--muted-2); }
-      .section-surface, .roles, .modules, .pricing, .signup { padding: 28px; }
+      .section-surface, .roles, .modules, .pricing, .signup { padding: 30px; }
       .problem-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
       .problem-index {
         width: 34px; height: 34px; border-radius: 999px; display: inline-flex; align-items: center; justify-content: center;
@@ -130,23 +143,43 @@
       .role-panel.active { display: block; }
       .module-card { background: rgba(9, 18, 33, 0.96); }
       .module-icon { width: 100%; border-radius: 14px; border: 1px solid rgba(148, 163, 255, 0.12); display: block; }
-      .signup-list { display: grid; gap: 10px; }
+      .signup-list { display: grid; gap: 12px; }
       .signup-list-item { display: flex; gap: 10px; align-items: flex-start; color: #d7e2ff; }
       .signup-list-item::before { content: ""; width: 9px; height: 9px; border-radius: 999px; margin-top: 8px; background: linear-gradient(135deg, var(--accent), var(--accent-3)); flex: 0 0 auto; }
-      .form-panel { display: grid; gap: 14px; }
-      .field { display: grid; gap: 6px; }
+      .form-panel { display: grid; gap: 18px; padding: 22px; }
+      .form-panel > * + * { margin-top: 2px; }
+      .field { display: grid; gap: 8px; }
+      #otp-block {
+        margin-top: 8px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(148, 163, 255, 0.14);
+      }
+      #otp-block .cta-row { margin-top: 10px; }
       label, .footer-note { font-size: 13px; color: var(--muted); }
       input, select { background: #0f172a; color: var(--text); border: 1px solid rgba(148, 163, 255, 0.2); border-radius: 10px; padding: 10px 12px; font-size: 14px; }
       .status { font-size: 13px; color: #a5b4fc; }
       .status.error { color: #fca5a5; }
-      .pricing-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); }
+      .pricing-grid { grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: stretch; }
       .price-card.featured { border-color: rgba(245, 158, 11, 0.28); background: linear-gradient(180deg, rgba(15, 31, 58, 0.94), rgba(7, 14, 26, 0.94)); }
       .footer-bar { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; align-items: center; padding-top: 18px; border-top: 1px solid rgba(148, 163, 255, 0.12); }
       .footer-links { display: flex; flex-wrap: wrap; gap: 10px; }
       .footer-links a { color: var(--accent); text-decoration: none; }
       @media (max-width: 980px) { .hero-grid, .signup-grid, .proof-strip, .problem-grid { grid-template-columns: 1fr; } .pricing-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-      @media (max-width: 820px) { main { padding: 48px 18px 72px; } .hero, .section-surface, .roles, .modules, .signup, .pricing { padding: 24px; } .hero-proof { grid-template-columns: 1fr; } .role-tabs { width: 100%; } }
-      @media (max-width: 560px) { h1 { max-width: none; } .pricing-grid { grid-template-columns: 1fr; } }
+      @media (max-width: 820px) {
+        main { padding: 48px 18px 72px; }
+        .hero, .section-surface, .roles, .modules, .signup, .pricing { padding: 24px; }
+        .hero-proof { grid-template-columns: 1fr; }
+        .role-tabs { width: 100%; }
+        .hero-preview { aspect-ratio: 1 / 0.9; max-height: 360px; }
+      }
+      @media (max-width: 560px) {
+        h1 { max-width: none; font-size: clamp(32px, 10vw, 46px); }
+        .pricing-grid { grid-template-columns: 1fr; }
+        .hero-grid, .signup-grid { gap: 18px; }
+        .hero-preview { aspect-ratio: 1 / 1; max-height: 300px; }
+        .hero-preview img { object-position: center 18%; }
+        .form-panel { padding: 18px; gap: 16px; }
+      }
     </style>
   </head>
   <body>
