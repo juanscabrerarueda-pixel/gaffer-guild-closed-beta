@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta name="x-release-id" content="2026-03-09T17:17:44.626Z">
+    <meta name="x-release-id" content="2026-03-09T17:31:36.512Z">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Gaffer Guild - Closed Beta</title>
@@ -401,20 +401,8 @@
         return payload;
       };
       const buildBasePayload = () => {
-        const now = new Date().toISOString();
         const email = emailInput ? emailInput.value.trim() : "";
-        const payload = {
-          email,
-          role: roleSelect ? roleSelect.value : "",
-          country: countryInput ? countryInput.value.trim() : "",
-          platform: platformSelect ? platformSelect.value : "",
-          created_at: now,
-          updated_at: now,
-        };
-        Object.keys(payload).forEach((key) => {
-          if (!payload[key]) delete payload[key];
-        });
-        return payload;
+        return { email };
       };
       const upsertSignup = async ({ status, accessToken }) => {
         const payload = buildProfilePayload({ status });
