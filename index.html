@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta name="x-release-id" content="2026-03-09T16:59:00.920Z">
+    <meta name="x-release-id" content="2026-03-09T17:11:21.944Z">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Gaffer Guild - Closed Beta</title>
@@ -430,7 +430,10 @@
         let response = await fetch(endpoint, { method: "POST", headers, body: JSON.stringify(payload) });
         if (response.ok) return true;
         response = await fetch(endpoint, { method: "POST", headers, body: JSON.stringify(basePayload) });
-        return response.ok;
+        if (response.ok) return true;
+        // Fallback: plain insert (works even if no unique index exists).
+        response = await fetch(`${SUPABASE_URL}/rest/v1/beta_signups`, { method: "POST", headers, body: JSON.stringify(basePayload) });
+        return response.ok || response.status === 409;
       };
       const persistProfileDraft = () => {
         try {
