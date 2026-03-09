@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta name="x-release-id" content="2026-03-09T18:05:14.663Z">
+    <meta name="x-release-id" content="2026-03-09T18:08:40.055Z">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Gaffer Guild - Closed Beta</title>
@@ -414,6 +414,19 @@
           "Content-Type": "application/json",
           Prefer: "resolution=merge-duplicates,return=minimal",
         };
+        // Try Edge Function first (avoids RLS).
+        try {
+          const fnResp = await fetch(`${SUPABASE_URL}/functions/v1/beta-signup`, {
+            method: "POST",
+            headers: {
+              apikey: SUPABASE_ANON_KEY,
+              Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email: payload.email, status, profile: payload }),
+          });
+          if (fnResp.ok) return true;
+        } catch {}
         const endpoint = `${SUPABASE_URL}/rest/v1/beta_signups?on_conflict=email`;
         let response = await fetch(endpoint, { method: "POST", headers, body: JSON.stringify(payload) });
         if (response.ok) return true;
