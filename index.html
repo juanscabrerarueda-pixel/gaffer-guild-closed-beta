@@ -2,7 +2,7 @@
 <html lang="es">
   <head>
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta name="x-release-id" content="2026-03-05T21:40:07.427Z">
+    <meta name="x-release-id" content="2026-03-09T16:59:00.920Z">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Gaffer Guild - Closed Beta</title>
@@ -379,6 +379,59 @@
       const grantAccess = () => window.localStorage.setItem(storageKey, String(Date.now() + ACCESS_TTL_MS));
       const landingToApp = () => { window.location.href = "./app/"; };
       const setStatus = (text, isError) => { statusEl.textContent = text || ""; statusEl.className = isError ? "status error" : "status"; };
+      const buildProfilePayload = ({ status }) => {
+        const now = new Date().toISOString();
+        const email = emailInput ? emailInput.value.trim() : "";
+        const payload = {
+          email,
+          role: roleSelect ? roleSelect.value : "",
+          country: countryInput ? countryInput.value.trim() : "",
+          city: cityInput ? cityInput.value.trim() : "",
+          platform: platformSelect ? platformSelect.value : "",
+          shoots_per_month: shootsInput ? shootsInput.value : "",
+          use_case: useCaseSelect ? useCaseSelect.value : "",
+          team_size: teamSizeSelect ? teamSizeSelect.value : "",
+          status,
+          created_at: now,
+          updated_at: now,
+        };
+        Object.keys(payload).forEach((key) => {
+          if (!payload[key]) delete payload[key];
+        });
+        return payload;
+      };
+      const buildBasePayload = () => {
+        const now = new Date().toISOString();
+        const email = emailInput ? emailInput.value.trim() : "";
+        const payload = {
+          email,
+          role: roleSelect ? roleSelect.value : "",
+          country: countryInput ? countryInput.value.trim() : "",
+          platform: platformSelect ? platformSelect.value : "",
+          created_at: now,
+          updated_at: now,
+        };
+        Object.keys(payload).forEach((key) => {
+          if (!payload[key]) delete payload[key];
+        });
+        return payload;
+      };
+      const upsertSignup = async ({ status, accessToken }) => {
+        const payload = buildProfilePayload({ status });
+        const basePayload = buildBasePayload();
+        const authToken = accessToken || SUPABASE_ANON_KEY;
+        const headers = {
+          apikey: SUPABASE_ANON_KEY,
+          Authorization: `Bearer ${authToken}`,
+          "Content-Type": "application/json",
+          Prefer: "resolution=merge-duplicates,return=minimal",
+        };
+        const endpoint = `${SUPABASE_URL}/rest/v1/beta_signups?on_conflict=email`;
+        let response = await fetch(endpoint, { method: "POST", headers, body: JSON.stringify(payload) });
+        if (response.ok) return true;
+        response = await fetch(endpoint, { method: "POST", headers, body: JSON.stringify(basePayload) });
+        return response.ok;
+      };
       const persistProfileDraft = () => {
         try {
           window.localStorage.setItem("gg_beta_profile_draft", JSON.stringify({
@@ -431,11 +484,11 @@
         if (cachedEmail && !emailInput.value) emailInput.value = cachedEmail;
         if (cachedEmail) otpBlock.style.display = "block";
       } catch {}
-      submitBtn.addEventListener("click", async (event) => { event.preventDefault(); const email = emailInput.value.trim(); const role = roleSelect.value; const country = countryInput.value.trim(); const platform = platformSelect.value; persistProfileDraft(); if (!email) { setStatus(CURRENT_STRINGS["status.email.invalid"], true); return; } if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL.includes("SUPABASE")) { setStatus(CURRENT_STRINGS["status.signup.sent"], false); return; } submitBtn.disabled = true; setStatus(CURRENT_STRINGS["status.signup.sending"], false); try { const response = await fetch(`${SUPABASE_URL}/rest/v1/beta_signups`, { method: "POST", headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}`, "Content-Type": "application/json", Prefer: "return=minimal" }, body: JSON.stringify({ email, role, country, platform, created_at: new Date().toISOString() }) }); if (response.status === 401 || response.status === 403) { setStatus(CURRENT_STRINGS["status.signup.permission"], true); return; } if (!response.ok && response.status !== 409) throw new Error("request_failed"); setStatus(CURRENT_STRINGS[response.status === 409 ? "status.signup.exists" : "status.signup.ok"], false); try { window.localStorage.setItem("gg_beta_email", email); } catch {} const otpResp = await fetch(`${SUPABASE_URL}/auth/v1/otp`, { method: "POST", headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}`, "Content-Type": "application/json" }, body: JSON.stringify({ email, options: { shouldCreateUser: true } }) }); if (otpResp.status === 429) { setStatus(CURRENT_STRINGS["status.otp.rate"], true); setCooldown(60); return; } if (!otpResp.ok) { setStatus(CURRENT_STRINGS["status.otp.fail"], true); return; } otpBlock.style.display = "block"; setStatus(CURRENT_STRINGS["status.otp.sent"], false); setCooldown(30); } catch { setStatus(CURRENT_STRINGS["status.signup.error"], true); } finally { submitBtn.disabled = false; } });
+      submitBtn.addEventListener("click", async (event) => { event.preventDefault(); const email = emailInput.value.trim(); persistProfileDraft(); if (!email) { setStatus(CURRENT_STRINGS["status.email.invalid"], true); return; } if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL.includes("SUPABASE")) { setStatus(CURRENT_STRINGS["status.signup.sent"], false); return; } submitBtn.disabled = true; setStatus(CURRENT_STRINGS["status.signup.sending"], false); try { const ok = await upsertSignup({ status: "applied" }); if (!ok) { setStatus(CURRENT_STRINGS["status.signup.error"], true); return; } setStatus(CURRENT_STRINGS["status.signup.ok"], false); try { window.localStorage.setItem("gg_beta_email", email); } catch {} const otpResp = await fetch(`${SUPABASE_URL}/auth/v1/otp`, { method: "POST", headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}`, "Content-Type": "application/json" }, body: JSON.stringify({ email, options: { shouldCreateUser: true } }) }); if (otpResp.status === 429) { setStatus(CURRENT_STRINGS["status.otp.rate"], true); setCooldown(60); return; } if (!otpResp.ok) { setStatus(CURRENT_STRINGS["status.otp.fail"], true); return; } otpBlock.style.display = "block"; setStatus(CURRENT_STRINGS["status.otp.sent"], false); setCooldown(30); } catch { setStatus(CURRENT_STRINGS["status.signup.error"], true); } finally { submitBtn.disabled = false; } });
       const handleGoogleLogin = (event) => { event.preventDefault(); persistProfileDraft(); if (!SUPABASE_URL || !SUPABASE_ANON_KEY || SUPABASE_URL.includes("SUPABASE")) { setStatus(CURRENT_STRINGS["status.supabase.required"], true); return; } const redirectTo = `${window.location.origin}/gaffer-guild-closed-beta/app/`; const oauthUrl = `${SUPABASE_URL}/auth/v1/authorize?provider=google&redirect_to=${encodeURIComponent(redirectTo)}`; window.location.href = oauthUrl; };
       if (googleBtn) googleBtn.addEventListener("click", handleGoogleLogin);
       if (heroGoogleBtn) heroGoogleBtn.addEventListener("click", handleGoogleLogin);
-      verifyBtn.addEventListener("click", async (event) => { event.preventDefault(); const email = document.getElementById("email").value.trim(); const code = document.getElementById("otp").value.trim(); if (!email || !code) { setStatus(CURRENT_STRINGS["status.verify.missing"], true); return; } verifyBtn.disabled = true; setStatus(CURRENT_STRINGS["status.verify.sending"], false); try { const verifyWithType = async (type) => { const resp = await fetch(`${SUPABASE_URL}/auth/v1/verify`, { method: "POST", headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}`, "Content-Type": "application/json" }, body: JSON.stringify({ email, token: code, type }) }); const payload = await resp.json().catch(() => null); return { ok: resp.ok, status: resp.status, payload }; }; const attempt = await verifyWithType("signup"); const result = attempt.ok ? attempt : await verifyWithType("email"); const finalResult = result.ok ? result : await verifyWithType("magiclink"); if (!finalResult.ok) { const errorCode = (finalResult.payload && (finalResult.payload.error_code || finalResult.payload.code || finalResult.payload.error)) || ""; if (finalResult.status === 429) setStatus(CURRENT_STRINGS["status.verify.too_many"], true); else if (/expired|otp_expired/i.test(String(errorCode))) setStatus(CURRENT_STRINGS["status.verify.expired"], true); else if (/invalid|not_found|token/i.test(String(errorCode))) setStatus(CURRENT_STRINGS["status.verify.invalid"], true); else setStatus(CURRENT_STRINGS["status.verify.fail"], true); return; } const payload = finalResult.payload; const accessToken = payload && payload.access_token; if (accessToken) { const check = await fetch(`${SUPABASE_URL}/rest/v1/beta_signups?email=eq.${encodeURIComponent(email)}&select=id&limit=1`, { method: "GET", headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${accessToken}`, Accept: "application/json" } }); const data = await check.json().catch(() => []); if (!Array.isArray(data) || data.length === 0) { setStatus(CURRENT_STRINGS["status.beta.denied"], true); return; } } grantAccess(); landingToApp(); } catch { setStatus(CURRENT_STRINGS["status.verify.fail"], true); } finally { verifyBtn.disabled = false; } });
+      verifyBtn.addEventListener("click", async (event) => { event.preventDefault(); const email = document.getElementById("email").value.trim(); const code = document.getElementById("otp").value.trim(); if (!email || !code) { setStatus(CURRENT_STRINGS["status.verify.missing"], true); return; } verifyBtn.disabled = true; setStatus(CURRENT_STRINGS["status.verify.sending"], false); try { const verifyWithType = async (type) => { const resp = await fetch(`${SUPABASE_URL}/auth/v1/verify`, { method: "POST", headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}`, "Content-Type": "application/json" }, body: JSON.stringify({ email, token: code, type }) }); const payload = await resp.json().catch(() => null); return { ok: resp.ok, status: resp.status, payload }; }; const attempt = await verifyWithType("signup"); const result = attempt.ok ? attempt : await verifyWithType("email"); const finalResult = result.ok ? result : await verifyWithType("magiclink"); if (!finalResult.ok) { const errorCode = (finalResult.payload && (finalResult.payload.error_code || finalResult.payload.code || finalResult.payload.error)) || ""; if (finalResult.status === 429) setStatus(CURRENT_STRINGS["status.verify.too_many"], true); else if (/expired|otp_expired/i.test(String(errorCode))) setStatus(CURRENT_STRINGS["status.verify.expired"], true); else if (/invalid|not_found|token/i.test(String(errorCode))) setStatus(CURRENT_STRINGS["status.verify.invalid"], true); else setStatus(CURRENT_STRINGS["status.verify.fail"], true); return; } const payload = finalResult.payload; const accessToken = payload && payload.access_token; if (accessToken) { const ok = await upsertSignup({ status: "approved", accessToken }); if (!ok) { setStatus(CURRENT_STRINGS["status.verify.fail"], true); return; } } grantAccess(); landingToApp(); } catch { setStatus(CURRENT_STRINGS["status.verify.fail"], true); } finally { verifyBtn.disabled = false; } });
       resendBtn.addEventListener("click", async (event) => { event.preventDefault(); const email = document.getElementById("email").value.trim(); if (!email) { setStatus(CURRENT_STRINGS["status.email.invalid"], true); return; } if (Date.now() < otpCooldownUntil) return; resendBtn.disabled = true; setStatus(CURRENT_STRINGS["status.otp.resending"], false); try { const otpResp = await fetch(`${SUPABASE_URL}/auth/v1/otp`, { method: "POST", headers: { apikey: SUPABASE_ANON_KEY, Authorization: `Bearer ${SUPABASE_ANON_KEY}`, "Content-Type": "application/json" }, body: JSON.stringify({ email, options: { shouldCreateUser: true } }) }); if (otpResp.status === 429) { setStatus(CURRENT_STRINGS["status.otp.rate"], true); setCooldown(60); return; } if (!otpResp.ok) { setStatus(CURRENT_STRINGS["status.resend.fail"], true); return; } setStatus(CURRENT_STRINGS["status.otp.resend.ok"], false); setCooldown(30); } finally { resendBtn.disabled = false; } });
       langButtons.forEach((btn) => btn.addEventListener("click", () => { CURRENT_STRINGS = setLanguage(btn.dataset.lang); renderDaysLeft(); }));
       const roleTabs = Array.from(document.querySelectorAll(".role-tab"));
